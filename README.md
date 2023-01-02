@@ -7,6 +7,8 @@ All Algorithms implemented in Zig
 - **Data Structures**
 - **Graph**
 - **Math**
+- **Sort**
+- **Search**
 - **Dynamic Programming**
 
 

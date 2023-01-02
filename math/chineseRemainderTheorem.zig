@@ -50,7 +50,7 @@ fn mul(comptime T: type, arg_a: T, arg_b: T, arg_p: T) T {
     return res;
 }
 
-fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
+pub fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
     var n = a.len;
     var M: T = 1;
     var x: T = 0;

@@ -7,13 +7,17 @@ pub fn build(b: *std.build.Builder) void {
 
     const op = b.option([]const u8, "algorithm", "choice algoritm to build.") orelse undefined;
 
+    // Sort algorithms
+    if (std.mem.eql(u8, op, "sort/quicksort"))
+        build_algorithm(b, mode, target, "quickSort.zig", "sort");
+
     // Data Structures algorithms
     if (std.mem.eql(u8, op, "ds/linkedlist"))
         build_algorithm(b, mode, target, "linkedList.zig", "dataStructures");
 
     // Dynamic Programming algorithms
     if (std.mem.eql(u8, op, "dp/fibonacci"))
-        build_algorithm(b, mode, target, "fibonacciRecursion.zig", "dinamicProgramming");
+        build_algorithm(b, mode, target, "fibonacciRecursion.zig", "dynamicProgramming");
 
     // Math algorithms
     if (std.mem.eql(u8, op, "math/ceil"))
@@ -22,6 +26,8 @@ pub fn build(b: *std.build.Builder) void {
         build_algorithm(b, mode, target, "chineseRemainderTheorem.zig", "math");
     if (std.mem.eql(u8, op, "math/primes"))
         build_algorithm(b, mode, target, "primes.zig", "math");
+    if (std.mem.eql(u8, op, "math/euclidianGCDivisor"))
+        build_algorithm(b, mode, target, "euclidianGreatestCommonDivisor.zig", "math");
 }
 
 fn build_algorithm(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.CrossTarget, name: []const u8, path: []const u8) void {
