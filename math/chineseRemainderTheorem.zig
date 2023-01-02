@@ -3,6 +3,7 @@ const math = std.math;
 const testing = std.testing;
 
 fn inverse(comptime T: type, number1: T, number2: T) T {
+    // mutable vars
     var x: T = number1;
     var y: T = number2;
     var u: T = 1;
@@ -11,6 +12,7 @@ fn inverse(comptime T: type, number1: T, number2: T) T {
     var n: T = 0;
     var q: T = 0;
     var r: T = 0;
+
     while (y != 0) {
         q = @divTrunc(x, y);
         r = @rem(x, y);
@@ -48,7 +50,7 @@ fn mul(comptime T: type, arg_a: T, arg_b: T, arg_p: T) T {
     return res;
 }
 
-fn crt(comptime T: type, a: []T, m: []T) T {
+fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
     var n = a.len;
     var M: T = 1;
     var x: T = 0;
@@ -74,17 +76,17 @@ fn crt(comptime T: type, a: []T, m: []T) T {
 test "Chinese Remainder Theorem" {
     var a = [_]i32{ 3, 5, 7 };
     var m = [_]i32{ 2, 3, 1 };
-    try testing.expectEqual(@as(i32, 5), crt(i32, &a, &m));
+    try testing.expectEqual(@as(i32, 5), chineseRemainder(i32, &a, &m));
 
     a = [_]i32{ 1, 4, 6 };
     m = [_]i32{ 3, 5, 7 };
-    try testing.expectEqual(@as(i32, 34), crt(i32, &a, &m));
+    try testing.expectEqual(@as(i32, 34), chineseRemainder(i32, &a, &m));
 
     a = [_]i32{ 5, 6, 7 };
     m = [_]i32{ 2, 7, 9 };
-    try testing.expectEqual(@as(i32, 97), crt(i32, &a, &m));
+    try testing.expectEqual(@as(i32, 97), chineseRemainder(i32, &a, &m));
 
     a = [_]c_int{ 5, 1, 4 };
     m = [_]c_int{ 9, 2, 6 };
-    try testing.expectEqual(@as(c_int, 60), crt(c_int, &a, &m));
+    try testing.expectEqual(@as(c_int, 60), chineseRemainder(c_int, &a, &m));
 }

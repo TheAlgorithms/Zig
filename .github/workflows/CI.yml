@@ -1,0 +1,35 @@
+name: Linux
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      
+      - name: Install Zig
+        uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: 0.10.0
+
+      - name: testing
+        run: |
+            zig build test -Dalgorithm=math/ceil -freference-trace && \
+            zig build test -Dalgorithm=math/crt -freference-trace && \
+            zig build test -Dalgorithm=math/primes -freference-trace && \
+            zig build test -Dalgorithm=ds/linkedlist -freference-trace && \
+            zig build test -Dalgorithm=dp/fibonacci -freference-trace
+
+
+lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: master
+      - run: zig fmt --check --ast-check **.zig

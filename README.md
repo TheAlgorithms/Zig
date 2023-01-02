@@ -7,7 +7,7 @@ All Algorithms implemented in Zig
 - **Data Structures**
 - **Graph**
 - **Math**
-- **Dynamic Programmign**
+- **Dynamic Programming**
 
 
 ## How to build
@@ -15,6 +15,13 @@ All Algorithms implemented in Zig
 **Require:** [Zig v0.10 or higher](https://ziglang.org/download)
 
 ```bash
+## Math
 $> zig build test -Dalgorithm=math/crt  # chinese remainder theorem
-$> zig build test -Dalgorithm=math/ceil # ceil
+$> zig build test -Dalgorithm=math/ceil
+
+## Dynamic Programming
+$> zig build test -Dalgorithm=dp/fibonacci
+
+## Data Structures
+$> zig build test -Dalgorithm=ds/linkedlist
 ```
