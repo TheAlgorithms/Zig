@@ -30,20 +30,22 @@ pub fn build(b: *std.build.Builder) void {
         build_algorithm(b, mode, target, "linkedList.zig", "dataStructures");
 
     // Dynamic Programming algorithms
-    if (std.mem.eql(u8, op, "dp/fibonacci"))
-        build_algorithm(b, mode, target, "fibonacciRecursion.zig", "dynamicProgramming");
 
     // Math algorithms
     if (std.mem.eql(u8, op, "math/ceil"))
         build_algorithm(b, mode, target, "ceil.zig", "math");
     if (std.mem.eql(u8, op, "math/crt"))
         build_algorithm(b, mode, target, "chineseRemainderTheorem.zig", "math");
+    if (std.mem.eql(u8, op, "math/fibonacci"))
+        build_algorithm(b, mode, target, "fibonacciRecursion.zig", "math");
     if (std.mem.eql(u8, op, "math/primes"))
         build_algorithm(b, mode, target, "primes.zig", "math");
     if (std.mem.eql(u8, op, "math/euclidianGCDivisor"))
         build_algorithm(b, mode, target, "euclidianGreatestCommonDivisor.zig", "math");
     if (std.mem.eql(u8, op, "math/gcd"))
         build_algorithm(b, mode, target, "gcd.zig", "math");
+    if (std.mem.eql(u8, op, "math/factorial"))
+        build_algorithm(b, mode, target, "factorial.zig", "math");
 }
 
 fn build_algorithm(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.CrossTarget, name: []const u8, path: []const u8) void {

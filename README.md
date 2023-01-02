@@ -17,17 +17,6 @@ All Algorithms implemented in Zig
 **Require:**
 - [Zig v0.10 or higher](https://ziglang.org/download), self-hosting (stage3) compiler.
 
-```bash
-## Math
-$> zig build test -Dalgorithm=math/crt  # chinese remainder theorem
-$> zig build test -Dalgorithm=math/ceil
-
-## Dynamic Programming
-$> zig build test -Dalgorithm=dp/fibonacci
-
-## Data Structures
-$> zig build test -Dalgorithm=ds/linkedlist
-```
 ### Test all
 
 Run:

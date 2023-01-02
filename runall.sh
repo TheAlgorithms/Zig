@@ -8,6 +8,8 @@ ZIG_TEST='zig build test'
 $ZIG_TEST -Dalgorithm=math/ceil -freference-trace
 $ZIG_TEST -Dalgorithm=math/crt -freference-trace
 $ZIG_TEST -Dalgorithm=math/primes -freference-trace
+$ZIG_TEST -Dalgorithm=math/fibonacci -freference-trace
+$ZIG_TEST -Dalgorithm=math/factorial -freference-trace
 $ZIG_TEST -Dalgorithm=math/euclidianGCDivisor -freference-trace
 $ZIG_TEST -Dalgorithm=math/gcd -freference-trace
 
@@ -15,7 +17,6 @@ $ZIG_TEST -Dalgorithm=math/gcd -freference-trace
 $ZIG_TEST -Dalgorithm=ds/linkedlist -freference-trace
 
 # Dynamic Programming
-$ZIG_TEST -Dalgorithm=dp/fibonacci -freference-trace
 
 ## Sort
 $ZIG_TEST -Dalgorithm=sort/quicksort -freference-trace
