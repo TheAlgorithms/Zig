@@ -21,8 +21,11 @@ $ZIG_TEST -Dalgorithm=dp/fibonacci -freference-trace
 $ZIG_TEST -Dalgorithm=sort/quicksort -freference-trace
 $ZIG_TEST -Dalgorithm=sort/bubblesort -freference-trace
 $ZIG_TEST -Dalgorithm=sort/radixsort -freference-trace
+$ZIG_TEST -Dalgorithm=sort/mergesort -freference-trace
+$ZIG_TEST -Dalgorithm=sort/insertsort -freference-trace
 
 ## Search
 $ZIG_TEST -Dalgorithm=search/bSearchTree -freference-trace
+$ZIG_TEST -Dalgorithm=search/rb -freference-trace
 
 ## Add more...

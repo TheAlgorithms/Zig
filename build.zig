@@ -14,10 +14,16 @@ pub fn build(b: *std.build.Builder) void {
         build_algorithm(b, mode, target, "bubbleSort.zig", "sort");
     if (std.mem.eql(u8, op, "sort/radixsort"))
         build_algorithm(b, mode, target, "radixSort.zig", "sort");
+    if (std.mem.eql(u8, op, "sort/mergesort"))
+        build_algorithm(b, mode, target, "mergeSort.zig", "sort");
+    if (std.mem.eql(u8, op, "sort/insertsort"))
+        build_algorithm(b, mode, target, "insertionSort.zig", "sort");
 
     // Search algorithms
     if (std.mem.eql(u8, op, "search/bSearchTree"))
         build_algorithm(b, mode, target, "binarySearchTree.zig", "search");
+    if (std.mem.eql(u8, op, "search/rb"))
+        build_algorithm(b, mode, target, "redBlackTrees.zig", "search");
 
     // Data Structures algorithms
     if (std.mem.eql(u8, op, "ds/linkedlist"))
