@@ -10,6 +10,14 @@ pub fn build(b: *std.build.Builder) void {
     // Sort algorithms
     if (std.mem.eql(u8, op, "sort/quicksort"))
         build_algorithm(b, mode, target, "quickSort.zig", "sort");
+    if (std.mem.eql(u8, op, "sort/bubblesort"))
+        build_algorithm(b, mode, target, "bubbleSort.zig", "sort");
+    if (std.mem.eql(u8, op, "sort/radixsort"))
+        build_algorithm(b, mode, target, "radixSort.zig", "sort");
+
+    // Search algorithms
+    if (std.mem.eql(u8, op, "search/bSearchTree"))
+        build_algorithm(b, mode, target, "binarySearchTree.zig", "search");
 
     // Data Structures algorithms
     if (std.mem.eql(u8, op, "ds/linkedlist"))
@@ -28,6 +36,8 @@ pub fn build(b: *std.build.Builder) void {
         build_algorithm(b, mode, target, "primes.zig", "math");
     if (std.mem.eql(u8, op, "math/euclidianGCDivisor"))
         build_algorithm(b, mode, target, "euclidianGreatestCommonDivisor.zig", "math");
+    if (std.mem.eql(u8, op, "math/gcd"))
+        build_algorithm(b, mode, target, "gcd.zig", "math");
 }
 
 fn build_algorithm(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.CrossTarget, name: []const u8, path: []const u8) void {
