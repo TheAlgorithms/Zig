@@ -17,14 +17,7 @@ jobs:
           version: 0.10.0
 
       - name: testing
-        run: |
-            zig build test -Dalgorithm=math/ceil -freference-trace && \
-            zig build test -Dalgorithm=math/crt -freference-trace && \
-            zig build test -Dalgorithm=math/primes -freference-trace && \
-            zig build test -Dalgorithm=math/euclidianGCDivisor -freference-trace && \
-            zig build test -Dalgorithm=ds/linkedlist -freference-trace && \
-            zig build test -Dalgorithm=dp/fibonacci -freference-trace && \
-            zig build test -Dalgorithm=sort/quicksort -freference-trace
+        run: sh runall.sh
 
 
   lint:

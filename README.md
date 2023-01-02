@@ -14,7 +14,8 @@ All Algorithms implemented in Zig
 
 ## How to build
 
-**Require:** [Zig v0.10 or higher](https://ziglang.org/download)
+**Require:**
+- [Zig v0.10 or higher](https://ziglang.org/download), self-hosting (stage3) compiler.
 
 ```bash
 ## Math
@@ -26,4 +27,11 @@ $> zig build test -Dalgorithm=dp/fibonacci
 
 ## Data Structures
 $> zig build test -Dalgorithm=ds/linkedlist
+```
+### Test all
+
+Run:
+
+```bash
+$> sh runall.sh
 ```
