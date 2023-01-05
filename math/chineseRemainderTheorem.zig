@@ -1,53 +1,17 @@
 const std = @import("std");
-const math = std.math;
 const testing = std.testing;
 
-fn inverse(comptime T: type, number1: T, number2: T) T {
-    // mutable vars
-    var x: T = number1;
-    var y: T = number2;
-    var u: T = 1;
-    var v: T = 0;
-    var m: T = 0;
-    var n: T = 0;
-    var q: T = 0;
-    var r: T = 0;
+// Computes the inverse of a mod m.
+pub fn InverseMod(comptime T: type, a: T, m: T) T {
+    const y: T = @mod(a, m);
+    var x: T = @as(T, 1);
 
-    while (y != 0) {
-        q = @divTrunc(x, y);
-        r = @rem(x, y);
-        m = u - (q * v);
-        n = v;
-        x = y;
-        y = r;
-        u = v;
-        v = m;
+    while (x < m) {
+        defer x += 1;
+        if (@rem((y * x), m) == 1)
+            return x;
     }
-    return @mod(u, number2);
-}
-
-fn mul(comptime T: type, arg_a: T, arg_b: T, arg_p: T) T {
-
-    // mutable vars
-    var a = arg_a;
-    var b = arg_b;
-    var p = arg_p;
-    var res: T = 0;
-
-    if (a < @as(T, 0)) {
-        a += p;
-    }
-    if (b < @as(T, 0)) {
-        b += p;
-    }
-    while (b != 0) {
-        if ((b & @as(T, 1)) != 0) {
-            res = @rem((res + a), p);
-        }
-        a = @rem((2 * a), p);
-        b >>= @intCast(math.Log2Int(T), @as(T, 1));
-    }
-    return res;
+    return 0;
 }
 
 pub fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
@@ -65,8 +29,8 @@ pub fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
         i = 0;
         while (i < n) : (i += 1) {
             var Mi = @divTrunc(M, m[i]);
-            x += mul(T, a[i] * Mi, inverse(T, Mi, m[i]), M);
-            x = @mod(x, M);
+            var z = InverseMod(T, Mi, m[i]);
+            x = @mod((x + a[i] * Mi * z), M);
         }
     }
 
@@ -74,19 +38,17 @@ pub fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
 }
 
 test "Chinese Remainder Theorem" {
-    var a = [_]i32{ 3, 5, 7 };
-    var m = [_]i32{ 2, 3, 1 };
-    try testing.expectEqual(@as(i32, 5), chineseRemainder(i32, &a, &m));
+    {
+        var a = [_]u32{ 3, 5, 7 };
+        var m = [_]u32{ 2, 3, 1 };
+        try testing.expectEqual(@as(u32, 5), chineseRemainder(u32, &a, &m));
+    }
 
-    a = [_]i32{ 1, 4, 6 };
-    m = [_]i32{ 3, 5, 7 };
+    var a = [_]i32{ 1, 4, 6 };
+    var m = [_]i32{ 3, 5, 7 };
     try testing.expectEqual(@as(i32, 34), chineseRemainder(i32, &a, &m));
 
-    a = [_]i32{ 5, 6, 7 };
-    m = [_]i32{ 2, 7, 9 };
-    try testing.expectEqual(@as(i32, 97), chineseRemainder(i32, &a, &m));
-
-    a = [_]c_int{ 5, 1, 4 };
-    m = [_]c_int{ 9, 2, 6 };
-    try testing.expectEqual(@as(c_int, 60), chineseRemainder(c_int, &a, &m));
+    a = [_]c_int{ 5, 6, 7 };
+    m = [_]c_int{ 2, 7, 9 };
+    try testing.expectEqual(@as(c_int, 97), chineseRemainder(c_int, &a, &m));
 }
