@@ -2,31 +2,35 @@
 
 ZIG_TEST='zig build test'
 
+# reference trace should be shown per compile error
+StackTrace='-freference-trace'
+
 ## Test all algorithms
 
 # Math
-$ZIG_TEST -Dalgorithm=math/ceil -freference-trace
-$ZIG_TEST -Dalgorithm=math/crt -freference-trace
-$ZIG_TEST -Dalgorithm=math/primes -freference-trace
-$ZIG_TEST -Dalgorithm=math/fibonacci -freference-trace
-$ZIG_TEST -Dalgorithm=math/factorial -freference-trace
-$ZIG_TEST -Dalgorithm=math/euclidianGCDivisor -freference-trace
-$ZIG_TEST -Dalgorithm=math/gcd -freference-trace
+$ZIG_TEST -Dalgorithm=math/ceil $StackTrace
+$ZIG_TEST -Dalgorithm=math/crt $StackTrace
+$ZIG_TEST -Dalgorithm=math/primes $StackTrace
+$ZIG_TEST -Dalgorithm=math/fibonacci $StackTrace
+$ZIG_TEST -Dalgorithm=math/factorial $StackTrace
+$ZIG_TEST -Dalgorithm=math/euclidianGCDivisor $StackTrace
+$ZIG_TEST -Dalgorithm=math/gcd $StackTrace
 
 # Data Structures
-$ZIG_TEST -Dalgorithm=ds/linkedlist -freference-trace
+$ZIG_TEST -Dalgorithm=ds/linkedlist $StackTrace
+$ZIG_TEST -Dalgorithm=ds/lrucache $StackTrace
 
 # Dynamic Programming
 
 ## Sort
-$ZIG_TEST -Dalgorithm=sort/quicksort -freference-trace
-$ZIG_TEST -Dalgorithm=sort/bubblesort -freference-trace
-$ZIG_TEST -Dalgorithm=sort/radixsort -freference-trace
-$ZIG_TEST -Dalgorithm=sort/mergesort -freference-trace
-$ZIG_TEST -Dalgorithm=sort/insertsort -freference-trace
+$ZIG_TEST -Dalgorithm=sort/quicksort $StackTrace
+$ZIG_TEST -Dalgorithm=sort/bubblesort $StackTrace
+$ZIG_TEST -Dalgorithm=sort/radixsort $StackTrace
+$ZIG_TEST -Dalgorithm=sort/mergesort $StackTrace
+$ZIG_TEST -Dalgorithm=sort/insertsort $StackTrace
 
 ## Search
-$ZIG_TEST -Dalgorithm=search/bSearchTree -freference-trace
-$ZIG_TEST -Dalgorithm=search/rb -freference-trace
+$ZIG_TEST -Dalgorithm=search/bSearchTree $StackTrace
+$ZIG_TEST -Dalgorithm=search/rb $StackTrace
 
 ## Add more...

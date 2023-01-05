@@ -27,4 +27,4 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v2
         with:
           version: master
-      - run: zig fmt --check --ast-check **.zig
+      - run: zig fmt --check --ast-check */*.zig

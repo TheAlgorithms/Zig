@@ -28,6 +28,8 @@ pub fn build(b: *std.build.Builder) void {
     // Data Structures algorithms
     if (std.mem.eql(u8, op, "ds/linkedlist"))
         build_algorithm(b, mode, target, "linkedList.zig", "dataStructures");
+    if (std.mem.eql(u8, op, "ds/lrucache"))
+        build_algorithm(b, mode, target, "lruCache.zig", "dataStructures");
 
     // Dynamic Programming algorithms
 

@@ -1,5 +1,3 @@
-
-
 const expect = @import("std").testing.expect;
 
 fn fibonacci(comptime T: type, index: T) T {
