@@ -873,7 +873,7 @@ test "lru.HashMap: update, get, delete without eviction" {
 
         // add all entries
 
-        for (keys) |key, i| {
+        for (keys, 0..) |key, i| {
             const result = map.getOrPut(key);
             try testing.expect(!result.found_existing);
             try testing.expect(result.evicted == null);
@@ -881,7 +881,7 @@ test "lru.HashMap: update, get, delete without eviction" {
             map.moveToFront(result.node);
         }
 
-        for (keys) |key, i| try testing.expectEqual(i, map.get(key).?.value);
+        for (keys, 0..) |key, i| try testing.expectEqual(i, map.get(key).?.value);
         try testing.expectEqual(keys.len, map.len);
 
         try testing.expectEqual(keys[keys.len - 1], map.live.head.?.key);
@@ -919,7 +919,7 @@ test "lru.HashMap: update, get, delete without eviction" {
         result.node.value = 0;
         map.moveToFront(result.node);
 
-        for (keys) |key, i| try testing.expectEqual(i, map.get(key).?.value);
+        for (keys, 0..) |key, i| try testing.expectEqual(i, map.get(key).?.value);
         try testing.expectEqual(keys.len, map.len);
 
         try testing.expectEqual(keys[0], map.live.head.?.key);
@@ -930,7 +930,7 @@ test "lru.HashMap: update, get, delete without eviction" {
 
         // delete all entries
 
-        for (keys) |key, i| try testing.expectEqual(i, map.delete(key).?.value);
+        for (keys, 0..) |key, i| try testing.expectEqual(i, map.delete(key).?.value);
         try testing.expectEqual(@as(usize, 0), map.len);
         try testing.expectEqual(@as(?*Cache.Entry, null), map.live.head);
         try testing.expectEqual(@as(?*Cache.Entry, null), map.live.tail);
@@ -994,8 +994,8 @@ test "lru.IntrusiveHashMap: update, get, delete without eviction" {
 
         // add all entries
 
-        for (keys) |key, i| try testing.expectEqual(Cache.UpdateResult.inserted, map.update(key, i));
-        for (keys) |key, i| try testing.expectEqual(i, map.get(key).?.value);
+        for (keys, 0..) |key, i| try testing.expectEqual(Cache.UpdateResult.inserted, map.update(key, i));
+        for (keys, 0..) |key, i| try testing.expectEqual(i, map.get(key).?.value);
         try testing.expectEqual(keys.len, map.len);
 
         try testing.expectEqual(keys[keys.len - 1], map.head.?.key);
@@ -1023,7 +1023,7 @@ test "lru.IntrusiveHashMap: update, get, delete without eviction" {
         const expected = map.tail.?.prev.?;
 
         try testing.expectEqual(Cache.UpdateResult.updated, map.update(keys[0], 0));
-        for (keys) |key, i| try testing.expectEqual(i, map.get(key).?.value);
+        for (keys, 0..) |key, i| try testing.expectEqual(i, map.get(key).?.value);
         try testing.expectEqual(keys.len, map.len);
 
         try testing.expectEqual(keys[0], map.head.?.key);
@@ -1034,7 +1034,7 @@ test "lru.IntrusiveHashMap: update, get, delete without eviction" {
 
         // delete all entries
 
-        for (keys) |key, i| try testing.expectEqual(i, map.delete(key).?);
+        for (keys, 0..) |key, i| try testing.expectEqual(i, map.delete(key).?);
         try testing.expectEqual(@as(usize, 0), map.len);
         try testing.expectEqual(@as(?*Cache.Entry, null), map.head);
         try testing.expectEqual(@as(?*Cache.Entry, null), map.tail);

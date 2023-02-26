@@ -33,4 +33,9 @@ $ZIG_TEST -Dalgorithm=sort/insertsort $StackTrace
 $ZIG_TEST -Dalgorithm=search/bSearchTree $StackTrace
 $ZIG_TEST -Dalgorithm=search/rb $StackTrace
 
+# Concurrency && Parallelism
+
+## Threads
+$ZIG_TEST -Dalgorithm="threads/threadpool" $StackTrace
+
 ## Add more...

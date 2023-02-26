@@ -14,7 +14,7 @@ jobs:
       - name: Install Zig
         uses: goto-bus-stop/setup-zig@v2
         with:
-          version: 0.10.0
+          version: master
 
       - name: testing
         run: sh runall.sh
