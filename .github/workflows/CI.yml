@@ -1,18 +1,20 @@
-name: Linux
+name: build
 
 on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
-      
-      - name: Install Zig
-        uses: goto-bus-stop/setup-zig@v2
+      - uses: goto-bus-stop/setup-zig@v2
         with:
           version: master
 
