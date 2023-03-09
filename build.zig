@@ -5,7 +5,7 @@ pub fn build(b: *std.build.Builder) void {
     const mode = b.standardOptimizeOption(.{});
     b.prominent_compile_errors = true;
 
-    const op = b.option([]const u8, "algorithm", "choice algoritm to build.") orelse undefined;
+    const op = b.option([]const u8, "algorithm", "choice algoritm to build.") orelse return;
 
     // Sort algorithms
     if (std.mem.eql(u8, op, "sort/quicksort"))
