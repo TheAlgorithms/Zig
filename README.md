@@ -30,16 +30,6 @@
  * [Code of Conduct](CODE_OF_CONDUCT.md)
  
 
-### TODO
-
-- **Data Structures**
-- **Graph**
-- **Math**
-- **Sort**
-- **Search**
-- **Dynamic Programming**
-- **Concurrency & Parallelism**
-
 ### How to build
 
 **Require:**

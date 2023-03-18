@@ -53,6 +53,8 @@ pub fn build(b: *std.build.Builder) void {
         build_algorithm(b, mode, target, "ThreadPool.zig", "concurrency/threads");
 
     // Web
+    if (std.mem.eql(u8, op, "web/http"))
+        build_algorithm(b, mode, target, "client.zig", "web/http");
     if (std.mem.eql(u8, op, "web/tls1_3"))
         build_algorithm(b, mode, target, "X25519+Kyber768Draft00.zig", "web/tls");
 }

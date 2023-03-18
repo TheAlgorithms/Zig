@@ -38,6 +38,7 @@ $ZIG_TEST -Dalgorithm=search/rb $Args
 $ZIG_TEST -Dalgorithm=threads/threadpool $Args
 
 ## Web
+$ZIG_TEST -Dalgorithm=web/http $Args
 $ZIG_TEST -Dalgorithm=web/tls1_3 $Args
 
 ## Add more...
