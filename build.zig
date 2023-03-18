@@ -3,7 +3,6 @@ const std = @import("std");
 pub fn build(b: *std.build.Builder) void {
     const target = b.standardTargetOptions(.{});
     const mode = b.standardOptimizeOption(.{});
-    b.prominent_compile_errors = true;
 
     const op = b.option([]const u8, "algorithm", "choice algoritm to build.") orelse return;
 
@@ -50,14 +49,15 @@ pub fn build(b: *std.build.Builder) void {
         build_algorithm(b, mode, target, "factorial.zig", "math");
 
     // Concurrent
-
     if (std.mem.eql(u8, op, "threads/threadpool"))
         build_algorithm(b, mode, target, "ThreadPool.zig", "concurrency/threads");
+
+    // Web
+    if (std.mem.eql(u8, op, "web/tls1_3"))
+        build_algorithm(b, mode, target, "X25519+Kyber768Draft00.zig", "web/tls");
 }
 
 fn build_algorithm(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.CrossTarget, name: []const u8, path: []const u8) void {
-    std.debug.print("Building {s}\n", .{name});
-
     const src = std.mem.concat(b.allocator, u8, &.{ path, "/", name }) catch @panic("concat error");
     const exe_tests = b.addTest(.{
         .name = name,

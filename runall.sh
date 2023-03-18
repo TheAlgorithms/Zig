@@ -2,40 +2,42 @@
 
 ZIG_TEST='zig build test'
 
-# reference trace should be shown per compile error
-StackTrace='-freference-trace'
+# -fsummary                    Print the build summary, even on success
+# -freference-trace            Reference trace should be shown per compile error
+Args='-fsummary -freference-trace'
 
 ## Test all algorithms
 
 # Math
-$ZIG_TEST -Dalgorithm=math/ceil $StackTrace
-$ZIG_TEST -Dalgorithm=math/crt $StackTrace
-$ZIG_TEST -Dalgorithm=math/primes $StackTrace
-$ZIG_TEST -Dalgorithm=math/fibonacci $StackTrace
-$ZIG_TEST -Dalgorithm=math/factorial $StackTrace
-$ZIG_TEST -Dalgorithm=math/euclidianGCDivisor $StackTrace
-$ZIG_TEST -Dalgorithm=math/gcd $StackTrace
+$ZIG_TEST -Dalgorithm=math/ceil $Args
+$ZIG_TEST -Dalgorithm=math/crt $Args
+$ZIG_TEST -Dalgorithm=math/primes $Args
+$ZIG_TEST -Dalgorithm=math/fibonacci $Args
+$ZIG_TEST -Dalgorithm=math/factorial $Args
+$ZIG_TEST -Dalgorithm=math/euclidianGCDivisor $Args
+$ZIG_TEST -Dalgorithm=math/gcd $Args
 
 # Data Structures
-$ZIG_TEST -Dalgorithm=ds/linkedlist $StackTrace
-$ZIG_TEST -Dalgorithm=ds/lrucache $StackTrace
+$ZIG_TEST -Dalgorithm=ds/linkedlist $Args
+$ZIG_TEST -Dalgorithm=ds/lrucache $Args
 
 # Dynamic Programming
 
 ## Sort
-$ZIG_TEST -Dalgorithm=sort/quicksort $StackTrace
-$ZIG_TEST -Dalgorithm=sort/bubblesort $StackTrace
-$ZIG_TEST -Dalgorithm=sort/radixsort $StackTrace
-$ZIG_TEST -Dalgorithm=sort/mergesort $StackTrace
-$ZIG_TEST -Dalgorithm=sort/insertsort $StackTrace
+$ZIG_TEST -Dalgorithm=sort/quicksort $Args
+$ZIG_TEST -Dalgorithm=sort/bubblesort $Args
+$ZIG_TEST -Dalgorithm=sort/radixsort $Args
+$ZIG_TEST -Dalgorithm=sort/mergesort $Args
+$ZIG_TEST -Dalgorithm=sort/insertsort $Args
 
 ## Search
-$ZIG_TEST -Dalgorithm=search/bSearchTree $StackTrace
-$ZIG_TEST -Dalgorithm=search/rb $StackTrace
-
-# Concurrency && Parallelism
+$ZIG_TEST -Dalgorithm=search/bSearchTree $Args
+$ZIG_TEST -Dalgorithm=search/rb $Args
 
 ## Threads
-$ZIG_TEST -Dalgorithm="threads/threadpool" $StackTrace
+$ZIG_TEST -Dalgorithm=threads/threadpool $Args
+
+## Web
+$ZIG_TEST -Dalgorithm=web/tls1_3 $Args
 
 ## Add more...
