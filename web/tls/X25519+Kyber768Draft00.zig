@@ -17,7 +17,6 @@ test "HTTPS Client - X25519+Kyber768Draft00" {
     });
     defer req.deinit();
     try req.start();
-    try req.finish();
     try req.wait();
     const read = try req.read(&buf);
 
