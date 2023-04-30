@@ -10,8 +10,7 @@ test "Status == 200" {
     var req = try client.request(.GET, uri, h, .{});
     defer req.deinit();
     try req.start(); // start request
-    try req.finish(); // end request
-    try req.wait(); //wait response
+    try req.wait(); // wait response
     try std.testing.expect(req.response.status == .ok);
     try std.testing.expect(req.response.version == .@"HTTP/1.1");
 }

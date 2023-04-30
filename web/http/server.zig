@@ -45,7 +45,7 @@ test "client requests server" {
             var buf: [128]u8 = undefined;
             const n = try res.readAll(&buf);
             try expect(std.mem.eql(u8, buf[0..n], "Hello, World!\n"));
-            _ = try res.writer().writeAll(server_body);
+            try res.writer().writeAll(server_body);
             try res.finish();
         }
     }).apply, .{&server});
