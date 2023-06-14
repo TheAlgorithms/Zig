@@ -14,7 +14,7 @@ pub fn max(A: []i32) i32 {
 }
 
 pub fn counting_sort(A: []i32, B: []i32, C: []usize, exp: i32, radix: usize) void {
-    mem.set(usize, C, 0);
+    @memset(C, 0);
 
     for (A, 0..) |_, index| {
         const digit_of_Ai = @rem(@intCast(usize, @divFloor(A[index], exp)), radix);
