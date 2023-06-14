@@ -234,8 +234,8 @@ pub fn HashMap(
             const nodes = try gpa.alloc(Entry, @intCast(usize, capacity * max_load_percentage / 100));
             errdefer gpa.free(nodes);
 
-            mem.set(?*Entry, entries, null);
-            mem.set(Entry, nodes, .{});
+            @memset(entries, null);
+            @memset(nodes, .{});
 
             var free: SinglyLinkedList(Entry, .next) = .{};
             for (nodes) |*node| free.prepend(node);
@@ -258,8 +258,8 @@ pub fn HashMap(
         pub fn clear(self: *Self) void {
             const capacity = @as(u64, 1) << (63 - self.shift + 1);
             const overflow = capacity / 10 + (63 - @as(usize, self.shift) + 1) << 1;
-            mem.set(?*Entry, self.entries[0..@intCast(usize, capacity + overflow)], null);
-            mem.set(Entry, self.nodes[0..@intCast(usize, capacity * max_load_percentage / 100)], .{});
+            @memset(self.entries[0..@intCast(usize, capacity + overflow)], null);
+            @memset(self.nodes[0..@intCast(usize, capacity * max_load_percentage / 100)], .{});
             self.len = 0;
         }
 
@@ -314,7 +314,7 @@ pub fn HashMap(
                             .value = tail.value,
                         };
 
-                        self.entries[inserted_at orelse i] = &Entry{ .key = key };
+                        self.entries[inserted_at orelse i] = @constCast(&Entry{ .key = key });
                         const tail_index = self.getIndex(tail.key).?;
                         self.entries[inserted_at orelse i] = tail;
 
@@ -515,7 +515,7 @@ pub fn IntrusiveHashMap(
             const overflow = capacity / 10 + (63 - @as(u64, shift) + 1) << 1;
 
             const entries = try gpa.alloc(Entry, @intCast(usize, capacity + overflow));
-            mem.set(Entry, entries, .{});
+            @memset(entries, .{});
 
             return Self{
                 .entries = entries.ptr,
@@ -528,7 +528,7 @@ pub fn IntrusiveHashMap(
         }
 
         pub fn clear(self: *Self) void {
-            mem.set(Entry, self.slice(), .{});
+            @memset(self.slice(), .{});
             self.len = 0;
             self.head = null;
             self.tail = null;

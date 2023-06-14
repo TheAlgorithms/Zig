@@ -21,7 +21,6 @@ test "client requests server" {
 
     const allocator = std.testing.allocator;
 
-    const max_header_size = 8192;
     var server = std.http.Server.init(allocator, .{ .reuse_address = true });
     defer server.deinit();
 
@@ -31,9 +30,9 @@ test "client requests server" {
 
     const server_thread = try std.Thread.spawn(.{}, (struct {
         fn apply(s: *std.http.Server) !void {
-            const res = try s.accept(.{ .dynamic = max_header_size });
+            var res = try s.accept(.{ .allocator = allocator });
             defer res.deinit();
-            defer res.reset();
+            defer _ = res.reset();
             try res.wait();
 
             const server_body: []const u8 = "message from server!\n";
