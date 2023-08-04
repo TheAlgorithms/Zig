@@ -4,7 +4,7 @@ ZIG_TEST='zig build test'
 
 # -fsummary                    Print the build summary, even on success
 # -freference-trace            Reference trace should be shown per compile error
-Args='-fsummary -freference-trace'
+Args='--summary all -freference-trace'
 
 ## Test all algorithms
 

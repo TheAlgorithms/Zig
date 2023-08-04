@@ -4,7 +4,7 @@ set ZIG_TEST=zig build test
 
 rem -fsummary                    Print the build summary, even on success
 rem -freference-trace            Reference trace should be shown per compile error
-set Args=-fsummary -freference-trace
+set Args=--summary all -freference-trace
 
 rem Test all algorithms
 

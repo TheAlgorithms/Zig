@@ -228,10 +228,10 @@ pub fn HashMap(
             const shift = 63 - math.log2_int(u64, capacity) + 1;
             const overflow = capacity / 10 + (63 - @as(u64, shift) + 1) << 1;
 
-            const entries = try gpa.alloc(?*Entry, @intCast(usize, capacity + overflow));
+            const entries = try gpa.alloc(?*Entry, @as(usize, @intCast(capacity + overflow)));
             errdefer gpa.free(entries);
 
-            const nodes = try gpa.alloc(Entry, @intCast(usize, capacity * max_load_percentage / 100));
+            const nodes = try gpa.alloc(Entry, @as(usize, @intCast(capacity * max_load_percentage / 100)));
             errdefer gpa.free(nodes);
 
             @memset(entries, null);
@@ -251,22 +251,22 @@ pub fn HashMap(
         pub fn deinit(self: *Self, gpa: mem.Allocator) void {
             const capacity = @as(u64, 1) << (63 - self.shift + 1);
             const overflow = capacity / 10 + (63 - @as(usize, self.shift) + 1) << 1;
-            gpa.free(self.entries[0..@intCast(usize, capacity + overflow)]);
-            gpa.free(self.nodes[0..@intCast(usize, capacity * max_load_percentage / 100)]);
+            gpa.free(self.entries[0..@as(usize, @intCast(capacity + overflow))]);
+            gpa.free(self.nodes[0..@as(usize, @intCast(capacity * max_load_percentage / 100))]);
         }
 
         pub fn clear(self: *Self) void {
             const capacity = @as(u64, 1) << (63 - self.shift + 1);
             const overflow = capacity / 10 + (63 - @as(usize, self.shift) + 1) << 1;
-            @memset(self.entries[0..@intCast(usize, capacity + overflow)], null);
-            @memset(self.nodes[0..@intCast(usize, capacity * max_load_percentage / 100)], .{});
+            @memset(self.entries[0..@as(usize, @intCast(capacity + overflow))], null);
+            @memset(self.nodes[0..@as(usize, @intCast(capacity * max_load_percentage / 100))], .{});
             self.len = 0;
         }
 
         pub fn slice(self: *Self) []?*Entry {
             const capacity = @as(u64, 1) << (63 - self.shift + 1);
             const overflow = capacity / 10 + (63 - @as(usize, self.shift) + 1) << 1;
-            return self.entries[0..@intCast(usize, capacity + overflow)];
+            return self.entries[0..@as(usize, @intCast(capacity + overflow))];
         }
 
         pub const KV = struct {
@@ -514,7 +514,7 @@ pub fn IntrusiveHashMap(
             const shift = 63 - math.log2_int(u64, capacity) + 1;
             const overflow = capacity / 10 + (63 - @as(u64, shift) + 1) << 1;
 
-            const entries = try gpa.alloc(Entry, @intCast(usize, capacity + overflow));
+            const entries = try gpa.alloc(Entry, @as(usize, @intCast(capacity + overflow)));
             @memset(entries, .{});
 
             return Self{
@@ -537,7 +537,7 @@ pub fn IntrusiveHashMap(
         pub fn slice(self: *Self) []Entry {
             const capacity = @as(u64, 1) << (63 - self.shift + 1);
             const overflow = capacity / 10 + (63 - @as(usize, self.shift) + 1) << 1;
-            return self.entries[0..@intCast(usize, capacity + overflow)];
+            return self.entries[0..@as(usize, @intCast(capacity + overflow))];
         }
 
         pub const UpdateResult = union(enum) {
@@ -703,7 +703,7 @@ pub fn IntrusiveHashMap(
 
         pub fn popFirstContext(self: *Self, ctx: Context) ?KV {
             const head = self.head orelse return null;
-            const head_index = (@ptrToInt(head) - @ptrToInt(self.entries)) / @sizeOf(Entry);
+            const head_index = (@intFromPtr(head) - @intFromPtr(self.entries)) / @sizeOf(Entry);
             return KV{ .key = head.key, .value = self.deleteEntryAtIndex(head_index, ctx) };
         }
 
@@ -716,7 +716,7 @@ pub fn IntrusiveHashMap(
 
         pub fn popContext(self: *Self, ctx: Context) ?KV {
             const tail = self.tail orelse return null;
-            const tail_index = (@ptrToInt(tail) - @ptrToInt(self.entries)) / @sizeOf(Entry);
+            const tail_index = (@intFromPtr(tail) - @intFromPtr(self.entries)) / @sizeOf(Entry);
             return KV{ .key = tail.key, .value = self.deleteEntryAtIndex(tail_index, ctx) };
         }
 
