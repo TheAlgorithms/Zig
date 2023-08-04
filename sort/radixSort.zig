@@ -17,7 +17,7 @@ pub fn counting_sort(A: []i32, B: []i32, C: []usize, exp: i32, radix: usize) voi
     @memset(C, 0);
 
     for (A, 0..) |_, index| {
-        const digit_of_Ai = @rem(@intCast(usize, @divFloor(A[index], exp)), radix);
+        const digit_of_Ai = @rem(@as(usize, @intCast(@divFloor(A[index], exp))), radix);
         C[digit_of_Ai] = C[digit_of_Ai] + 1;
     }
 
@@ -28,7 +28,7 @@ pub fn counting_sort(A: []i32, B: []i32, C: []usize, exp: i32, radix: usize) voi
 
     var m = A.len - 1;
     while (m != math.maxInt(usize) and m >= 0) : (m = m -% 1) {
-        const digit_of_Ai = @rem(@intCast(usize, @divFloor(A[m], exp)), radix);
+        const digit_of_Ai = @rem(@as(usize, @intCast(@divFloor(A[m], exp))), radix);
         C[digit_of_Ai] = C[digit_of_Ai] - 1;
         B[C[digit_of_Ai]] = A[m];
     }

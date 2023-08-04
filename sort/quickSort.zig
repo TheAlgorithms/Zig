@@ -7,7 +7,7 @@ const mem = std.mem;
 pub fn sort(A: []i32, lo: usize, hi: usize) void {
     if (lo < hi) {
         var p = partition(A, lo, hi);
-        sort(A, lo, std.math.min(p, p -% 1));
+        sort(A, lo, @min(p, p -% 1));
         sort(A, p + 1, hi);
     }
 }
