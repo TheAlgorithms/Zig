@@ -20,7 +20,7 @@ test "linked list" {
     // do this:
     try expect(LinkedList(i32) == LinkedList(i32));
 
-    var list = LinkedList(i32){
+    const list = LinkedList(i32){
         .first = null,
         .last = null,
         .len = 0,
@@ -37,7 +37,7 @@ test "linked list" {
         .next = null,
         .data = 1234,
     };
-    var list2 = LinkedList(i32){
+    const list2 = LinkedList(i32){
         .first = &node,
         .last = &node,
         .len = 1,

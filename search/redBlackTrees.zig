@@ -106,7 +106,7 @@ fn Tree(comptime T: type) type {
 
 test "search empty tree" {
     var tree = Tree(i32){};
-    var result = tree.search(3);
+    const result = tree.search(3);
     try expect(result == null);
 }
 
@@ -116,7 +116,7 @@ test "search an existing element" {
     defer arena_allocator.deinit();
     const allocator = arena_allocator.allocator();
     try tree.insert(3, allocator);
-    var result = tree.search(3);
+    const result = tree.search(3);
     try expect(result.?.value == 3);
     try expect(result.?.color == BLACK);
 }
@@ -127,7 +127,7 @@ test "search non-existent element" {
     defer arena_allocator.deinit();
     const allocator = arena_allocator.allocator();
     try tree.insert(3, allocator);
-    var result = tree.search(4);
+    const result = tree.search(4);
     try expect(result == null);
 }
 
@@ -140,6 +140,6 @@ test "search for an element with multiple nodes" {
     for (values) |v| {
         try tree.insert(v, allocator);
     }
-    var result = tree.search(4);
+    const result = tree.search(4);
     try expect(result.?.value == 4);
 }

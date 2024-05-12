@@ -6,7 +6,7 @@ const mem = std.mem;
 ///References: https://en.wikipedia.org/wiki/Quicksort
 pub fn sort(A: []i32, lo: usize, hi: usize) void {
     if (lo < hi) {
-        var p = partition(A, lo, hi);
+        const p = partition(A, lo, hi);
         sort(A, lo, @min(p, p -% 1));
         sort(A, p + 1, hi);
     }
@@ -15,7 +15,7 @@ pub fn sort(A: []i32, lo: usize, hi: usize) void {
 pub fn partition(A: []i32, lo: usize, hi: usize) usize {
     //Pivot can be chosen otherwise, for example try picking the first or random
     //and check in which way that affects the performance of the sorting
-    var pivot = A[hi];
+    const pivot = A[hi];
     var i = lo;
     var j = lo;
     while (j < hi) : (j += 1) {
@@ -29,7 +29,7 @@ pub fn partition(A: []i32, lo: usize, hi: usize) usize {
 }
 
 test "empty array" {
-    var array: []i32 = &.{};
+    const array: []i32 = &.{};
     sort(array, 0, 0);
     const a = array.len;
     try expect(a == 0);

@@ -9,14 +9,12 @@ test "HTTPS Client - X25519+Kyber768Draft00" {
         .allocator = testing.allocator,
     };
     defer client.deinit();
-    var h = std.http.Headers{ .allocator = testing.allocator };
-    defer h.deinit();
 
-    var req = try client.request(.POST, uri, h, .{
-        .header_strategy = .{ .static = &header_buf },
+    var req = try client.open(.POST, uri, .{
+        .server_header_buffer = &header_buf,
     });
     defer req.deinit();
-    try req.start();
+    try req.send();
     try req.wait();
     const read = try req.read(&buf);
 
@@ -30,8 +28,8 @@ test "HTTPS Client - X25519+Kyber768Draft00" {
             try testing.expectEqualStrings("visit_scheme=https", content);
         if (startW(u8, content, "http="))
             try testing.expectEqualStrings("http=http/1.1", content);
-        // if (startW(u8, content, "uag="))
-        //     try testing.expectEqualStrings("uag=zig (std.http)", content);
+        if (startW(u8, content, "uag="))
+            try testing.expectEqualStrings("uag=zig/0.12.0 (std.http)", content);
         // zig master/nightly change per build (e.g.: zig/0.11.0-dev.2868+1a455b2dd (std.http))
         if (startW(u8, content, "tls="))
             try testing.expectEqualStrings("tls=TLSv1.3", content);

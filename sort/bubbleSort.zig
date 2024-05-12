@@ -18,7 +18,7 @@ pub fn sort(A: []i32) void {
 }
 
 test "empty array" {
-    var array: []i32 = &.{};
+    const array: []i32 = &.{};
     sort(array);
     const a = array.len;
     try expect(a == 0);
