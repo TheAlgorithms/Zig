@@ -172,7 +172,7 @@ fn build_algorithm(b: *std.Build, info: BInfo) void {
         },
     });
 
-    var descr = b.fmt("Test the {s} algorithm", .{info.name});
+    const descr = b.fmt("Test the {s} algorithm", .{info.name});
     const run_exe_tests = b.addRunArtifact(exe_tests);
     const test_step = b.step("test", descr);
     test_step.dependOn(&run_exe_tests.step);
@@ -180,7 +180,7 @@ fn build_algorithm(b: *std.Build, info: BInfo) void {
 
 const BInfo = struct {
     optimize: std.builtin.OptimizeMode,
-    target: std.zig.CrossTarget,
+    target: std.Build.ResolvedTarget,
     name: []const u8,
     category: []const u8,
 };

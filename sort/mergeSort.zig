@@ -12,7 +12,7 @@ fn split_merge(B: []i32, begin: usize, end: usize, A: []i32) void {
     if (end - begin <= 1) {
         return;
     }
-    var middle = (end + begin) / 2;
+    const middle = (end + begin) / 2;
     split_merge(A, begin, middle, B);
     split_merge(A, middle, end, B);
     merge(B, begin, middle, end, A);
@@ -42,8 +42,8 @@ fn copy_array(A: []i32, begin: usize, end: usize, B: []i32) void {
 }
 
 test "empty array" {
-    var array: []i32 = &.{};
-    var work_array: []i32 = &.{};
+    const array: []i32 = &.{};
+    const work_array: []i32 = &.{};
     sort(array, work_array);
     const a = array.len;
     try expect(a == 0);

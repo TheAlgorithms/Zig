@@ -1009,7 +1009,7 @@ test "lru.IntrusiveHashMap: update, get, delete without eviction" {
         var key_index: usize = 0;
         while (key_index < keys.len / 2) : (key_index += 1) {
             const index = random.intRangeAtMost(usize, 1, keys.len - 1);
-            try testing.expectEqual(Cache.UpdateResult.updated, map.update(keys[index], index));
+            try testing.expectEqual(Cache.UpdateResult{ .updated = index }, map.update(keys[index], index));
 
             try testing.expectEqual(keys[index], map.head.?.key);
             try testing.expectEqual(index, map.head.?.value);
@@ -1022,7 +1022,7 @@ test "lru.IntrusiveHashMap: update, get, delete without eviction" {
 
         const expected = map.tail.?.prev.?;
 
-        try testing.expectEqual(Cache.UpdateResult.updated, map.update(keys[0], 0));
+        try testing.expectEqual(Cache.UpdateResult{ .updated = 0 }, map.update(keys[0], 0));
         for (keys, 0..) |key, i| try testing.expectEqual(i, map.get(key).?.value);
         try testing.expectEqual(keys.len, map.len);
 

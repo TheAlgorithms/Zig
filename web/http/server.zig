@@ -1,4 +1,5 @@
 //! ref: https://github.com/ziglang/zig/blob/master/lib/std/http/test.zig
+//! ref: https://ziglang.org/download/0.12.0/release-notes.html#Reworked-HTTP
 
 const std = @import("std");
 const expect = std.testing.expect;
@@ -12,62 +13,79 @@ test "client requests server" {
     }
 
     const native_endian = comptime builtin.cpu.arch.endian();
-    if (builtin.zig_backend == .stage2_llvm and native_endian == .Big) {
+    if (builtin.zig_backend == .stage2_llvm and native_endian == .big) {
         // https://github.com/ziglang/zig/issues/13782
         return error.SkipZigTest;
     }
 
     if (builtin.os.tag == .wasi) return error.SkipZigTest;
 
-    const allocator = std.testing.allocator;
+    // Start Server
+    const address = try std.net.Address.parseIp4("127.0.0.1", 0);
 
-    var server = std.http.Server.init(allocator, .{ .reuse_address = true });
-    defer server.deinit();
-
-    const address = try std.net.Address.parseIp("127.0.0.1", 0);
-    try server.listen(address);
-    const server_port = server.socket.listen_address.in.getPort();
+    var http_server = try address.listen(.{
+        .reuse_port = true,
+    });
+    const server_port = http_server.listen_address.getPort();
+    defer http_server.deinit();
 
     const server_thread = try std.Thread.spawn(.{}, (struct {
-        fn apply(s: *std.http.Server) !void {
-            var res = try s.accept(.{ .allocator = allocator });
-            defer res.deinit();
-            defer _ = res.reset();
-            try res.wait();
+        fn apply(s: *std.net.Server) !void {
+            const connection = try s.accept();
+            defer connection.stream.close();
 
+            var read_buffer: [8000]u8 = undefined;
+            var server = std.http.Server.init(connection, &read_buffer);
+
+            var request = try server.receiveHead();
+
+            // Accept request
+            const reader = try request.reader();
+            var buffer: [100]u8 = undefined;
+            const read_num = try reader.readAll(&buffer);
+            try std.testing.expectEqualStrings(buffer[0..read_num], "Hello, World!\n");
+
+            // Respond
             const server_body: []const u8 = "message from server!\n";
-            res.transfer_encoding = .{ .content_length = server_body.len };
-            try res.headers.append("content-type", "text/plain");
-            try res.headers.append("connection", "close");
-            try res.do();
-
-            var buf: [128]u8 = undefined;
-            const n = try res.readAll(&buf);
-            try expect(std.mem.eql(u8, buf[0..n], "Hello, World!\n"));
-            try res.writer().writeAll(server_body);
-            try res.finish();
+            try request.respond(server_body, .{
+                .keep_alive = false,
+                .extra_headers = &.{
+                    .{ .name = "content-type", .value = "text/plain" },
+                },
+            });
         }
-    }).apply, .{&server});
+    }).apply, .{&http_server});
+    defer server_thread.join();
 
-    var uri_buf: [22]u8 = undefined;
-    const uri = try std.Uri.parse(try std.fmt.bufPrint(&uri_buf, "http://127.0.0.1:{d}", .{server_port}));
-    var client = std.http.Client{ .allocator = allocator };
+    // Make requests to server
+
+    var client = std.http.Client{
+        .allocator = std.testing.allocator,
+    };
     defer client.deinit();
-    var client_headers = std.http.Headers{ .allocator = allocator };
-    defer client_headers.deinit();
-    var client_req = try client.request(.POST, uri, client_headers, .{});
-    defer client_req.deinit();
+    const uri = uri: {
+        const uri_size = comptime std.fmt.count("http://127.0.0.1:{d}", .{std.math.maxInt(u16)});
+        var uri_buf: [uri_size]u8 = undefined;
+        const uri = try std.Uri.parse(try std.fmt.bufPrint(&uri_buf, "http://127.0.0.1:{d}", .{server_port}));
+        break :uri uri;
+    };
 
-    client_req.transfer_encoding = .{ .content_length = 14 }; // this will be checked to ensure you sent exactly 14 bytes
-    try client_req.start(); // this sends the request
-    try client_req.writeAll("Hello, ");
-    try client_req.writeAll("World!\n");
-    try client_req.finish();
-    try client_req.wait(); // this waits for a response
+    var buffer: [4 * 1024]u8 = undefined;
+    var req = try client.open(.POST, uri, .{
+        .server_header_buffer = &buffer,
+    });
+    req.transfer_encoding = .{ .content_length = 14 };
+    defer req.deinit();
 
-    const body = try client_req.reader().readAllAlloc(allocator, 8192 * 1024);
-    defer allocator.free(body);
-    try expect(std.mem.eql(u8, body, "message from server!\n"));
+    try req.send();
+    try req.writeAll("Hello, ");
+    try req.writeAll("World!\n");
+    try req.finish();
 
-    server_thread.join();
+    try req.wait();
+
+    var read_buffer: [100]u8 = undefined;
+    const read_num = try req.readAll(&read_buffer);
+
+    try std.testing.expectEqualStrings(read_buffer[0..read_num], "message from server!\n");
 }

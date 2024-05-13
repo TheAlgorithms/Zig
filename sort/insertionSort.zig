@@ -6,7 +6,7 @@ const mem = std.mem;
 pub fn sort(A: []i32) void {
     var i: usize = 1;
     while (i < A.len) : (i += 1) {
-        var x = A[i];
+        const x = A[i];
         var j = i;
         while (j > 0 and A[j - 1] > x) : (j -= 1) {
             A[j] = A[j - 1];
@@ -16,7 +16,7 @@ pub fn sort(A: []i32) void {
 }
 
 test "empty array" {
-    var array: []i32 = &.{};
+    const array: []i32 = &.{};
     sort(array);
     const a = array.len;
     try expect(a == 0);

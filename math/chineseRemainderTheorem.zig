@@ -15,7 +15,7 @@ pub fn InverseMod(comptime T: type, a: T, m: T) T {
 }
 
 pub fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
-    var n = a.len;
+    const n = a.len;
     var M: T = 1;
     var x: T = 0;
     var i: usize = undefined;
@@ -28,8 +28,8 @@ pub fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
     {
         i = 0;
         while (i < n) : (i += 1) {
-            var Mi = @divTrunc(M, m[i]);
-            var z = InverseMod(T, Mi, m[i]);
+            const Mi = @divTrunc(M, m[i]);
+            const z = InverseMod(T, Mi, m[i]);
             x = @mod((x + a[i] * Mi * z), M);
         }
     }

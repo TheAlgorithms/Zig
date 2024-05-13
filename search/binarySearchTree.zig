@@ -49,8 +49,8 @@ fn Tree(comptime T: type) type {
 }
 
 test "search empty tree" {
-    var tree = Tree(i32){};
-    var result = Tree(i32).search(tree.root, 3);
+    const tree = Tree(i32){};
+    const result = Tree(i32).search(tree.root, 3);
     try expect(result == null);
 }
 
@@ -58,7 +58,7 @@ test "search an existing element" {
     var tree = Tree(i32){};
     var node = Node(i32){ .value = 3 };
     tree.insert(&node);
-    var result = Tree(i32).search(tree.root, 3);
+    const result = Tree(i32).search(tree.root, 3);
     try expect(result.? == &node);
 }
 
@@ -66,7 +66,7 @@ test "search non-existent element" {
     var tree = Tree(i32){};
     var node = Node(i32){ .value = 3 };
     tree.insert(&node);
-    var result = Tree(i32).search(tree.root, 4);
+    const result = Tree(i32).search(tree.root, 4);
     try expect(result == null);
 }
 
@@ -77,6 +77,6 @@ test "search for an element with multiple nodes" {
         var node = Node(i32){ .value = v };
         tree.insert(&node);
     }
-    var result = Tree(i32).search(tree.root, 9);
+    const result = Tree(i32).search(tree.root, 9);
     try expect(result.?.value == 9);
 }

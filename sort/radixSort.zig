@@ -43,7 +43,7 @@ pub fn sort(A: []i32, B: []i32, radix: usize) !void {
     const C = try allocator.alloc(usize, radix);
     defer allocator.free(C);
 
-    var k = max(A);
+    const k = max(A);
 
     var exp: i32 = 1;
     while (@divFloor(k, exp) > 0) : (exp *= 10) {
@@ -55,8 +55,8 @@ pub fn sort(A: []i32, B: []i32, radix: usize) !void {
 }
 
 test "empty array" {
-    var array: []i32 = &.{};
-    var work_array: []i32 = &.{};
+    const array: []i32 = &.{};
+    const work_array: []i32 = &.{};
     try sort(array, work_array, 10);
     const a = array.len;
     try expect(a == 0);
