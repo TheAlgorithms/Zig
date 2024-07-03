@@ -35,7 +35,7 @@
 ### How to build
 
 **Require:**
-- [Zig v0.12 or higher](https://ziglang.org/download), self-hosting (stage3) compiler.
+- [Zig v0.13 or higher](https://ziglang.org/download), self-hosting (stage3) compiler.
 
 ### Test all
 
