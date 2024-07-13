@@ -18,7 +18,7 @@ test "HTTPS Client - X25519+Kyber768Draft00" {
     try req.wait();
     const read = try req.read(&buf);
 
-    var strings = std.mem.split(u8, buf[0..read], "\n");
+    var strings = std.mem.splitAny(u8, buf[0..read], "\n");
     var index = strings.index.?;
     while (index < strings.rest().len) : (index += 1) {
         const content = strings.next().?;
@@ -29,7 +29,7 @@ test "HTTPS Client - X25519+Kyber768Draft00" {
         if (startW(u8, content, "http="))
             try testing.expectEqualStrings("http=http/1.1", content);
         if (startW(u8, content, "uag="))
-            try testing.expectEqualStrings("uag=zig/0.12.0 (std.http)", content);
+            try testing.expectEqualStrings("uag=zig/0.13.0 (std.http)", content);
         // zig master/nightly change per build (e.g.: zig/0.11.0-dev.2868+1a455b2dd (std.http))
         if (startW(u8, content, "tls="))
             try testing.expectEqualStrings("tls=TLSv1.3", content);

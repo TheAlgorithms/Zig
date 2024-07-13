@@ -861,7 +861,7 @@ test "lru.HashMap: update, get, delete without eviction" {
 
     var seed: usize = 0;
     while (seed < 10_000) : (seed += 1) {
-        var rng = std.rand.DefaultPrng.init(seed);
+        var rng = std.Random.DefaultPrng.init(seed);
 
         const keys = try testing.allocator.alloc(usize, 128);
         defer testing.allocator.free(keys);
@@ -982,7 +982,7 @@ test "lru.IntrusiveHashMap: update, get, delete without eviction" {
 
     var seed: usize = 0;
     while (seed < 10_000) : (seed += 1) {
-        var rng = std.rand.DefaultPrng.init(seed);
+        var rng = std.Random.DefaultPrng.init(seed);
 
         const keys = try testing.allocator.alloc(usize, 128);
         defer testing.allocator.free(keys);

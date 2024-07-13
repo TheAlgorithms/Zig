@@ -10,13 +10,11 @@ jobs:
         runs-on: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.runs-on }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: goto-bus-stop/setup-zig@v2
-        with:
-          version: 0.12.0
+      - uses: mlugg/setup-zig@v1
 
       - name: Testing (Linux & MacOS)
         if: (startsWith(matrix.runs-on, 'ubuntu')) || (startsWith(matrix.runs-on, 'macos'))
@@ -30,8 +28,6 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: goto-bus-stop/setup-zig@v2
-        with:
-          version: 0.12.0
+      - uses: actions/checkout@v4
+      - uses: mlugg/setup-zig@v1
       - run: zig fmt --check --ast-check */*.zig

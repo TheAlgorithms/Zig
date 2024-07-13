@@ -162,14 +162,20 @@ pub fn build(b: *std.Build) void {
 }
 
 fn build_algorithm(b: *std.Build, info: BInfo) void {
-    const src = std.mem.concat(b.allocator, u8, &.{ info.category, "/", info.name }) catch @panic("concat error");
+    const src = std.mem.concat(b.allocator, u8, &.{
+        info.category,
+        "/",
+        info.name,
+    }) catch @panic("concat error");
+
+    const runner = b.dependency("runner", .{}).path("test_runner.zig");
+
     const exe_tests = b.addTest(.{
         .name = info.name,
         .target = info.target,
         .optimize = info.optimize,
-        .root_source_file = .{
-            .path = src,
-        },
+        .root_source_file = b.path(src),
+        .test_runner = runner,
     });
 
     const descr = b.fmt("Test the {s} algorithm", .{info.name});
