@@ -8,7 +8,7 @@ const testing = std.testing;
 //      T: the type of the info(i.e. i32, i16, u32, etc...)
 //      Allocator: This is needed for the struct instance. In most cases, feel free
 //                 to use std.heap.GeneralPurposeAllocator.
-pub fn bst(comptime T: type) type {
+pub fn BinarySearchTree(comptime T: type) type {
     return struct {
         const Self = @This();
 
@@ -40,7 +40,9 @@ pub fn bst(comptime T: type) type {
         // Arguments:
         //      key: T - the key to be removed from the tree
         pub fn remove(self: *Self, key: T) !void {
-            if (self.root == null) { return; }
+            if (self.root == null) {
+                return;
+            }
             self.root = try self._remove(self.root, key);
             self.size -= 1;
         }
@@ -55,26 +57,34 @@ pub fn bst(comptime T: type) type {
 
         // Function that performs inorder traversal of the tree
         pub fn inorder(self: *Self, path: *ArrayList(T)) !void {
-            if (self.root == null) { return; }
+            if (self.root == null) {
+                return;
+            }
             try self._inorder(self.root, path);
         }
 
         // Function that performs preorder traversal of the tree
         pub fn preorder(self: *Self, path: *ArrayList(T)) !void {
-            if (self.root == null) { return; }
+            if (self.root == null) {
+                return;
+            }
             try self._preorder(self.root, path);
         }
 
         // Function that performs postorder traversal of the tree
         pub fn postorder(self: *Self, path: *ArrayList(T)) !void {
-            if (self.root == null) { return; }
+            if (self.root == null) {
+                return;
+            }
             try self._postorder(self.root, path);
         }
 
         // Function that destroys the allocated memory of the whole tree
         // Uses the _destroy helper private function
         pub fn destroy(self: *Self) void {
-            if (self.root == null) { return; }
+            if (self.root == null) {
+                return;
+            }
             self._destroy(self.root);
             self.size = 0;
         }
@@ -84,19 +94,17 @@ pub fn bst(comptime T: type) type {
         //      key: T - The info of the node
         fn new_node(self: *Self, key: T) !?*node {
             const nn = try self.allocator.create(node);
-            nn.* = node { .info = key, .right = null, .left = null };
+            nn.* = node{ .info = key, .right = null, .left = null };
             return nn;
         }
 
         fn _insert(self: *Self, root: ?*node, key: T) !?*node {
-            if(root == null) {
+            if (root == null) {
                 return try self.new_node(key);
-            }
-            else {
+            } else {
                 if (root.?.info < key) {
                     root.?.right = try self._insert(root.?.right, key);
-                }
-                else {
+                } else {
                     root.?.left = try self._insert(root.?.left, key);
                 }
             }
@@ -111,28 +119,23 @@ pub fn bst(comptime T: type) type {
 
             if (root.?.info < key) {
                 root.?.right = try self._remove(root.?.right, key);
-            }
-            else if (root.?.info > key) {
+            } else if (root.?.info > key) {
                 root.?.left = try self._remove(root.?.left, key);
-            }
-            else {
+            } else {
                 if (root.?.left == null and root.?.right == null) {
                     self.allocator.destroy(root.?);
                     return null;
-                }
-                else if (root.?.left == null) {
+                } else if (root.?.left == null) {
                     const temp = root.?.right;
                     self.allocator.destroy(root.?);
                     return temp;
-                }
-                else if (root.?.right == null) {
+                } else if (root.?.right == null) {
                     const temp = root.?.left;
                     self.allocator.destroy(root.?);
                     return temp;
-                }
-                else {
+                } else {
                     var curr: ?*node = root.?.right;
-                    while (curr.?.left != null) : (curr = curr.?.left) { }
+                    while (curr.?.left != null) : (curr = curr.?.left) {}
                     root.?.info = curr.?.info;
                     root.?.right = try self._remove(root.?.right, curr.?.info);
                 }
@@ -146,11 +149,9 @@ pub fn bst(comptime T: type) type {
             while (head) |curr| {
                 if (curr.info < key) {
                     head = curr.right;
-                }
-                else if (curr.info > key) {
+                } else if (curr.info > key) {
                     head = curr.left;
-                }
-                else {
+                } else {
                     return true;
                 }
             }
@@ -168,9 +169,9 @@ pub fn bst(comptime T: type) type {
 
         fn _preorder(self: *Self, root: ?*node, path: *ArrayList(T)) !void {
             if (root != null) {
-               try path.append(root.?.info);
-               try self._preorder(root.?.left, path);
-               try self._preorder(root.?.right, path);
+                try path.append(root.?.info);
+                try self._preorder(root.?.left, path);
+                try self._preorder(root.?.right, path);
             }
         }
 
@@ -183,7 +184,7 @@ pub fn bst(comptime T: type) type {
         }
 
         fn _destroy(self: *Self, root: ?*node) void {
-            if(root != null) {
+            if (root != null) {
                 self._destroy(root.?.left);
                 self._destroy(root.?.right);
                 self.allocator.destroy(root.?);
@@ -193,11 +194,11 @@ pub fn bst(comptime T: type) type {
 }
 
 test "Testing Binary Search Tree" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     var allocator = gpa.allocator();
 
-    var t = bst(i32) { .allocator = &allocator };
+    var t = BinarySearchTree(i32){ .allocator = &allocator };
     defer t.destroy();
 
     try t.insert(10);
@@ -218,14 +219,14 @@ test "Testing Binary Search Tree" {
     var ino = ArrayList(i32).init(allocator);
     defer ino.deinit();
 
-    const check_ino = [_]i32{3, 5, 12, 15, 25};
+    const check_ino = [_]i32{ 3, 5, 12, 15, 25 };
     try t.inorder(&ino);
     try testing.expect(std.mem.eql(i32, ino.items, &check_ino));
 
     var pre = ArrayList(i32).init(allocator);
     defer pre.deinit();
 
-    const check_pre = [_]i32{12, 5, 3, 25, 15};
+    const check_pre = [_]i32{ 12, 5, 3, 25, 15 };
     try t.preorder(&pre);
 
     try testing.expect(std.mem.eql(i32, pre.items, &check_pre));
@@ -233,9 +234,8 @@ test "Testing Binary Search Tree" {
     var post = ArrayList(i32).init(allocator);
     defer post.deinit();
 
-    const check_post = [_]i32{3, 5, 15, 25, 12};
+    const check_post = [_]i32{ 3, 5, 15, 25, 12 };
     try t.postorder(&post);
 
     try testing.expect(std.mem.eql(i32, post.items, &check_post));
 }
-
