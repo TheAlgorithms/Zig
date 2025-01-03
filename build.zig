@@ -83,7 +83,6 @@ pub fn build(b: *std.Build) void {
         });
 
     // Dynamic Programming algorithms
-
     if (std.mem.eql(u8, op, "dp/coinChange"))
         build_algorithm(b, .{
             .optimize = optimize,
@@ -98,6 +97,7 @@ pub fn build(b: *std.Build) void {
             .name = "knapsack.zig",
             .category = "dynamicProgramming"
         });
+
     // Math algorithms
     if (std.mem.eql(u8, op, "math/ceil"))
         build_algorithm(b, .{
