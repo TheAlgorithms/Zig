@@ -19,6 +19,7 @@ $ZIG_TEST -Dalgorithm=math/gcd $Args
 
 # Data Structures
 $ZIG_TEST -Dalgorithm=ds/linkedlist $Args
+$ZIG_TEST -Dalgorithm=ds/doublylinkedlist $Args
 $ZIG_TEST -Dalgorithm=ds/lrucache $Args
 
 # Dynamic Programming

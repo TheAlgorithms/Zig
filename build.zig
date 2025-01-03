@@ -67,6 +67,13 @@ pub fn build(b: *std.Build) void {
             .name = "linkedList.zig",
             .category = "dataStructures",
         });
+    if (std.mem.eql(u8, op, "ds/doublylinkedlist"))
+        build_algorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "doublyLinkedList.zig",
+            .category = "dataStructures",
+        });
     if (std.mem.eql(u8, op, "ds/lrucache"))
         build_algorithm(b, .{
             .optimize = optimize,
