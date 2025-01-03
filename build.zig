@@ -67,6 +67,13 @@ pub fn build(b: *std.Build) void {
             .name = "linkedList.zig",
             .category = "dataStructures",
         });
+    if (std.mem.eql(u8, op, "ds/doublylinkedlist"))
+        build_algorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "doublyLinkedList.zig",
+            .category = "dataStructures",
+        });
     if (std.mem.eql(u8, op, "ds/lrucache"))
         build_algorithm(b, .{
             .optimize = optimize,
@@ -76,6 +83,20 @@ pub fn build(b: *std.Build) void {
         });
 
     // Dynamic Programming algorithms
+    if (std.mem.eql(u8, op, "dp/coinChange"))
+        build_algorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "coinChange.zig",
+            .category = "dynamicProgramming"
+        });
+    if (std.mem.eql(u8, op, "dp/knapsack"))
+        build_algorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "knapsack.zig",
+            .category = "dynamicProgramming"
+        });
 
     // Math algorithms
     if (std.mem.eql(u8, op, "math/ceil"))
