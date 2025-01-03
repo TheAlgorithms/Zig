@@ -193,7 +193,7 @@ pub fn BinarySearchTree(comptime T: type) type {
     };
 }
 
-test "Testing Binary Search Tree" {
+test "Testing insertion" {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     var allocator = gpa.allocator();
@@ -209,12 +209,40 @@ test "Testing Binary Search Tree" {
     try testing.expect(t.size == 5);
     try testing.expect(t.search(10) == true);
     try testing.expect(t.search(15) == false);
+}
+
+test "Testing bst removal" {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    var allocator = gpa.allocator();
+
+    var t = BinarySearchTree(i32){ .allocator = &allocator };
+    defer t.destroy();
+
+    try t.insert(10);
+    try t.insert(5);
+    try t.insert(3);
     try t.insert(15);
-    try testing.expect(t.size == 6);
+    try testing.expect(t.size == 4);
     try testing.expect(t.search(15) == true);
     try t.remove(10);
-    try testing.expect(t.size == 5);
+    try testing.expect(t.size == 3);
     try testing.expect(t.search(10) == false);
+}
+
+test "Testing traversal methods" {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    var allocator = gpa.allocator();
+
+    var t = BinarySearchTree(i32){ .allocator = &allocator };
+    defer t.destroy();
+
+    try t.insert(5);
+    try t.insert(25);
+    try t.insert(3);
+    try t.insert(12);
+    try t.insert(15);
 
     var ino = ArrayList(i32).init(allocator);
     defer ino.deinit();
@@ -226,7 +254,7 @@ test "Testing Binary Search Tree" {
     var pre = ArrayList(i32).init(allocator);
     defer pre.deinit();
 
-    const check_pre = [_]i32{ 12, 5, 3, 25, 15 };
+    const check_pre = [_]i32{ 5, 3, 25, 12, 15 };
     try t.preorder(&pre);
 
     try testing.expect(std.mem.eql(i32, pre.items, &check_pre));
@@ -234,8 +262,23 @@ test "Testing Binary Search Tree" {
     var post = ArrayList(i32).init(allocator);
     defer post.deinit();
 
-    const check_post = [_]i32{ 3, 5, 15, 25, 12 };
+    const check_post = [_]i32{ 3, 15, 12, 25, 5 };
     try t.postorder(&post);
 
     try testing.expect(std.mem.eql(i32, post.items, &check_post));
+}
+
+
+test "Testing operations on empty trees" {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    var allocator = gpa.allocator();
+
+    var t = BinarySearchTree(i32){ .allocator = &allocator };
+    defer t.destroy();
+
+    try testing.expect(t.size == 0);
+    try testing.expect(t.search(10) == false);
+    try t.remove(10);
+    try testing.expect(t.search(10) == false);
 }
