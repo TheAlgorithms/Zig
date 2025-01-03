@@ -97,6 +97,13 @@ pub fn build(b: *std.Build) void {
             .name = "knapsack.zig",
             .category = "dynamicProgramming"
         });
+    if (std.mem.eql(u8, op, "dp/longestIncreasingSubsequence"))
+        build_algorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "longestIncreasingSubsequence.zig",
+            .category = "dynamicProgramming"
+        });
 
     // Math algorithms
     if (std.mem.eql(u8, op, "math/ceil"))
