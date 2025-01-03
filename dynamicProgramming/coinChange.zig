@@ -23,16 +23,16 @@ pub fn min_cost(arr: []const u32, comptime N: i32) i32 {
         }
     }
 
-    return if(dp[N] > N) -1 else dp[N];
+    return if (dp[N] > N) -1 else dp[N];
 }
 
 test "Testing min_cost algorithm" {
     const v = [3]u32{ 1, 2, 5 };
     try testing.expect(min_cost(&v, 11) == 3);
 
-    const v2 = [1]u32{ 2 };
+    const v2 = [1]u32{2};
     try testing.expect(min_cost(&v2, 3) == -1);
 
-    const v3 = [1]u32{ 1 };
+    const v3 = [1]u32{1};
     try testing.expect(min_cost(&v3, 0) == 0);
 }

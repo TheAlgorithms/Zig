@@ -33,8 +33,7 @@ pub fn knapsack(comptime arr: []const pairs, comptime capacity: u32) u32 {
             dp[i][j] = dp[i - 1][j];
             if (i == 0 or j == 0) {
                 dp[i][j] = 0;
-            }
-            else if (arr[i - 1].capacity <= j) {
+            } else if (arr[i - 1].capacity <= j) {
                 dp[i][j] = @max(dp[i - 1][j], arr[i - 1].cost + dp[i - 1][j - arr[i - 1].capacity]);
             }
         }
@@ -44,13 +43,13 @@ pub fn knapsack(comptime arr: []const pairs, comptime capacity: u32) u32 {
 }
 
 test "Testing knapsack function" {
-    const arr = [_]pairs { pairs {.capacity = 10, .cost = 60}, pairs { .capacity = 20, .cost = 100}, pairs { .capacity = 30, .cost = 120 } };
+    const arr = [_]pairs{ pairs{ .capacity = 10, .cost = 60 }, pairs{ .capacity = 20, .cost = 100 }, pairs{ .capacity = 30, .cost = 120 } };
 
     try testing.expect(knapsack(&arr, 50) == 220);
 
-    const arr2 = [_]pairs { pairs {.capacity = 5, .cost = 40}, pairs { .capacity = 3, .cost = 20}, pairs { .capacity = 6, .cost = 10 }, pairs { .capacity = 3, .cost = 30 } };
+    const arr2 = [_]pairs{ pairs{ .capacity = 5, .cost = 40 }, pairs{ .capacity = 3, .cost = 20 }, pairs{ .capacity = 6, .cost = 10 }, pairs{ .capacity = 3, .cost = 30 } };
     try testing.expect(knapsack(&arr2, 10) == 70);
 
-    const arr3 = [_]pairs { pairs {.capacity = 100, .cost = 100}, pairs { .capacity = 150, .cost = 150 } };
+    const arr3 = [_]pairs{ pairs{ .capacity = 100, .cost = 100 }, pairs{ .capacity = 150, .cost = 150 } };
     try testing.expect(knapsack(&arr3, 20) == 0);
 }
