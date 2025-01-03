@@ -77,6 +77,20 @@ pub fn build(b: *std.Build) void {
 
     // Dynamic Programming algorithms
 
+    if (std.mem.eql(u8, op, "dp/coinChange"))
+        build_algorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "coinChange.zig",
+            .category = "dp"
+        });
+    if (std.mem.eql(u8, op, "dp/knapsack"))
+        build_algorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "knapsack.zig",
+            .category = "dp"
+        });
     // Math algorithms
     if (std.mem.eql(u8, op, "math/ceil"))
         build_algorithm(b, .{
