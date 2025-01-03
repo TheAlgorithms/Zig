@@ -8,12 +8,11 @@ pub fn lower_bound(arr: []const i32, key: i32) usize {
     var lo: usize = 0;
     var hi: usize = arr.len;
 
-    while(lo < hi) {
+    while (lo < hi) {
         const mid: usize = lo + (hi - lo) / 2;
         if (key <= arr[mid]) {
             hi = mid;
-        }
-        else {
+        } else {
             lo = mid + 1;
         }
     }
@@ -42,8 +41,7 @@ pub fn lis(arr: []const i32) usize {
         const it = lower_bound(v.items, arr[i]);
         if (it == v.items.len) {
             _ = v.append(arr[i]) catch return 0;
-        }
-        else {
+        } else {
             v.items[it] = arr[i];
         }
     }
@@ -52,18 +50,18 @@ pub fn lis(arr: []const i32) usize {
 }
 
 test "testing longest increasing subsequence function" {
-    const v = [4]i32 { 1, 5, 6, 7 };
+    const v = [4]i32{ 1, 5, 6, 7 };
     try testing.expect(lis(&v) == 4);
 
-    const v2 = [5]i32 { 1, -1, 5, 6, 7 };
+    const v2 = [5]i32{ 1, -1, 5, 6, 7 };
     try testing.expect(lis(&v2) == 4);
 
-    const v3 = [5]i32 { 1, 2, -1, 0, 1 };
+    const v3 = [5]i32{ 1, 2, -1, 0, 1 };
     try testing.expect(lis(&v3) == 3);
 
-    const v4 = [0]i32 {};
+    const v4 = [0]i32{};
     try testing.expect(lis(&v4) == 0);
 
-    const v5 = [5]i32 { 0, 0, 0, 0, 0 };
+    const v5 = [5]i32{ 0, 0, 0, 0, 0 };
     try testing.expect(lis(&v5) == 1);
 }
