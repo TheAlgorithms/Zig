@@ -268,7 +268,6 @@ test "Testing traversal methods" {
     try testing.expect(std.mem.eql(i32, post.items, &check_post));
 }
 
-
 test "Testing operations on empty trees" {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
