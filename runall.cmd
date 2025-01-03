@@ -22,6 +22,8 @@ rem Data Structures
 %ZIG_TEST% -Dalgorithm=ds/lrucache %Args%
 
 rem Dynamic Programming
+%ZIG_TEST% -Dalgorithm=dynamicProgramming/coinChange %Args%
+%ZIG_TEST% -Dalgorithm=dynamicProgramming/knapsack %Args%
 
 rem Sort
 %ZIG_TEST% -Dalgorithm=sort/quicksort %Args%
