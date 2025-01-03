@@ -25,6 +25,7 @@ $ZIG_TEST -Dalgorithm=ds/lrucache $Args
 # Dynamic Programming
 $ZIG_TEST -Dalgorithm=dp/coinChange $Args
 $ZIG_TEST -Dalgorithm=dp/knapsack $Args
+$ZIG_TEST -Dalgorithm=dp/longestIncreasingSubsequence $Args
 
 ## Sort
 $ZIG_TEST -Dalgorithm=sort/quicksort $Args

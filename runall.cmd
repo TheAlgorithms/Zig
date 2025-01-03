@@ -25,6 +25,7 @@ rem Data Structures
 rem Dynamic Programming
 %ZIG_TEST% -Dalgorithm=dp/coinChange %Args%
 %ZIG_TEST% -Dalgorithm=dp/knapsack %Args%
+%ZIG_TEST% -Dalgorithm=dp/longestIncreasingSubsequence %Args%
 
 rem Sort
 %ZIG_TEST% -Dalgorithm=sort/quicksort %Args%
