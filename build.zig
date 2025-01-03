@@ -89,14 +89,14 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
             .target = target,
             .name = "coinChange.zig",
-            .category = "dp"
+            .category = "dynamicProgramming"
         });
     if (std.mem.eql(u8, op, "dp/knapsack"))
         build_algorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "knapsack.zig",
-            .category = "dp"
+            .category = "dynamicProgramming"
         });
     // Math algorithms
     if (std.mem.eql(u8, op, "math/ceil"))
