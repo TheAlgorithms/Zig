@@ -87,16 +87,19 @@ test "Testing insertion/popping in stack" {
     try s.push(20);
     try s.push(30);
     try testing.expect(try s.top() == 30);
+    try testing.expect(s.size == 3);
     try s.pop();
     try testing.expect(try s.top() == 20);
+    try testing.expect(s.size == 2);
     try s.pop();
     try testing.expect(try s.top() == 10);
+    try testing.expect(s.size == 1);
     try s.pop();
     s.pop() catch |err| {
         try testing.expect(err == error.EmptyList);
         return;
     };
-
+    try testing.expect(s.size == 0);
     try s.destroy();
 }
 
