@@ -21,6 +21,7 @@ rem Data Structures
 %ZIG_TEST% -Dalgorithm=ds/linkedlist %Args%
 %ZIG_TEST% -Dalgorithm=ds/doublylinkedlist %Args%
 %ZIG_TEST% -Dalgorithm=ds/lrucache %Args%
+%ZIG_TEST% -Dalgorithm=ds/stack %Args%
 
 rem Dynamic Programming
 %ZIG_TEST% -Dalgorithm=dp/coinChange %Args%
