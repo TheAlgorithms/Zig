@@ -81,6 +81,13 @@ pub fn build(b: *std.Build) void {
             .name = "lruCache.zig",
             .category = "dataStructures",
         });
+    if (std.mem.eql(u8, op, "ds/stack"))
+        build_algorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "stack.zig",
+            .category = "dataStructures",
+        });
 
     // Dynamic Programming algorithms
     if (std.mem.eql(u8, op, "dp/coinChange"))
