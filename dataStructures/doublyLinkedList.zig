@@ -30,7 +30,7 @@ pub fn DoublyLinkedList(comptime T: type) type {
         // Runs in O(1)
         // Arguments:
         //      key: T - the key to be inserted to the list
-        pub fn push_back(self: *Self, key: T) !void {
+        pub fn pushBack(self: *Self, key: T) !void {
             const nn = try self.allocator.create(node);
             nn.* = node{ .info = key, .next = null, .prev = self.tail };
 
@@ -49,7 +49,7 @@ pub fn DoublyLinkedList(comptime T: type) type {
         // Runs in O(1)
         // Arguments:
         //      key: T - the key to be inserted to the list
-        pub fn push_front(self: *Self, key: T) !void {
+        pub fn pushFront(self: *Self, key: T) !void {
             const nn = try self.allocator.create(node);
             nn.* = node{ .info = key, .next = self.root, .prev = null };
 
@@ -66,7 +66,7 @@ pub fn DoublyLinkedList(comptime T: type) type {
 
         // Function that removes the front of the list
         // Runs in O(1)
-        pub fn pop_front(self: *Self) void {
+        pub fn popFront(self: *Self) void {
             if (self.root == null) {
                 return;
             }
@@ -80,7 +80,7 @@ pub fn DoublyLinkedList(comptime T: type) type {
 
         // Function that removes the back of the list
         // Runs in O(1)
-        pub fn pop_back(self: *Self) void {
+        pub fn popBack(self: *Self) void {
             if (self.root == null) {
                 return;
             }
@@ -193,9 +193,9 @@ test "Testing Doubly Linked List" {
     var list = DoublyLinkedList(i32){ .allocator = &allocator };
     defer list.destroy();
 
-    try list.push_front(10);
-    try list.push_front(20);
-    try list.push_front(30);
+    try list.pushFront(10);
+    try list.pushFront(20);
+    try list.pushFront(30);
 
     try testing.expect(list.search(10) == true);
     try testing.expect(list.search(30) == true);
@@ -207,7 +207,7 @@ test "Testing Doubly Linked List" {
     defer list2.destroy();
 
     inline for (0..4) |el| {
-        try list2.push_back(el);
+        try list2.pushBack(el);
     }
 
     inline for (0..4) |el| {
@@ -216,10 +216,10 @@ test "Testing Doubly Linked List" {
 
     try testing.expect(list2.size == 4);
 
-    list2.pop_front();
+    list2.popFront();
     try testing.expect(list2.search(0) == false);
 
-    list2.pop_back();
+    list2.popBack();
 
     try testing.expect(list2.size == 2);
     try testing.expect(list2.search(3) == false);

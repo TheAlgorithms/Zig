@@ -4,7 +4,7 @@ const testing = std.testing;
 const ArrayList = std.ArrayList;
 
 // Function that returns the lower bound in O(logn)
-pub fn lower_bound(arr: []const i32, key: i32) usize {
+pub fn lowerBound(arr: []const i32, key: i32) usize {
     var lo: usize = 0;
     var hi: usize = arr.len;
 
@@ -36,7 +36,7 @@ pub fn lis(arr: []const i32, allocator: anytype) usize {
     const n = arr.len;
 
     for (0..n) |i| {
-        const it = lower_bound(v.items, arr[i]);
+        const it = lowerBound(v.items, arr[i]);
         if (it == v.items.len) {
             _ = v.append(arr[i]) catch return 0;
         } else {

@@ -6,7 +6,7 @@ const testing = std.testing;
 // Arguments:
 //      arr: the array that contains the coins
 //      N: the total amount of money that you have
-pub fn min_cost(arr: []const u32, comptime N: i32) i32 {
+pub fn minCost(arr: []const u32, comptime N: i32) i32 {
     const max_of: i32 = N + 1;
 
     var dp: [N + 1]i32 = undefined;
@@ -28,11 +28,11 @@ pub fn min_cost(arr: []const u32, comptime N: i32) i32 {
 
 test "Testing min_cost algorithm" {
     const v = [3]u32{ 1, 2, 5 };
-    try testing.expect(min_cost(&v, 11) == 3);
+    try testing.expect(minCost(&v, 11) == 3);
 
     const v2 = [1]u32{2};
-    try testing.expect(min_cost(&v2, 3) == -1);
+    try testing.expect(minCost(&v2, 3) == -1);
 
     const v3 = [1]u32{1};
-    try testing.expect(min_cost(&v3, 0) == 0);
+    try testing.expect(minCost(&v3, 0) == 0);
 }

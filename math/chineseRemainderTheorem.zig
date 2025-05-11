@@ -2,7 +2,7 @@ const std = @import("std");
 const testing = std.testing;
 
 // Computes the inverse of a mod m.
-pub fn InverseMod(comptime T: type, a: T, m: T) T {
+pub fn inverseMod(comptime T: type, a: T, m: T) T {
     const y: T = @mod(a, m);
     var x: T = @as(T, 1);
 
@@ -29,7 +29,7 @@ pub fn chineseRemainder(comptime T: type, a: []T, m: []T) T {
         i = 0;
         while (i < n) : (i += 1) {
             const Mi = @divTrunc(M, m[i]);
-            const z = InverseMod(T, Mi, m[i]);
+            const z = inverseMod(T, Mi, m[i]);
             x = @mod((x + a[i] * Mi * z), M);
         }
     }
