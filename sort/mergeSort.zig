@@ -4,17 +4,17 @@ const assert = std.debug.assert;
 
 pub fn sort(A: []i32, B: []i32) void {
     assert(A.len == B.len);
-    copy_array(A, 0, A.len, B);
-    split_merge(B, 0, A.len, A);
+    copyArray(A, 0, A.len, B);
+    splitMerge(B, 0, A.len, A);
 }
 
-fn split_merge(B: []i32, begin: usize, end: usize, A: []i32) void {
+fn splitMerge(B: []i32, begin: usize, end: usize, A: []i32) void {
     if (end - begin <= 1) {
         return;
     }
     const middle = (end + begin) / 2;
-    split_merge(A, begin, middle, B);
-    split_merge(A, middle, end, B);
+    splitMerge(A, begin, middle, B);
+    splitMerge(A, middle, end, B);
     merge(B, begin, middle, end, A);
 }
 
@@ -34,7 +34,7 @@ fn merge(A: []i32, begin: usize, middle: usize, end: usize, B: []i32) void {
     }
 }
 
-fn copy_array(A: []i32, begin: usize, end: usize, B: []i32) void {
+fn copyArray(A: []i32, begin: usize, end: usize, B: []i32) void {
     var k = begin;
     while (k < end) : (k += 1) {
         B[k] = A[k];

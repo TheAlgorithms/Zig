@@ -13,7 +13,7 @@ pub fn max(A: []i32) i32 {
     return max_val;
 }
 
-pub fn counting_sort(A: []i32, B: []i32, C: []usize, exp: i32, radix: usize) void {
+pub fn countingSort(A: []i32, B: []i32, C: []usize, exp: i32, radix: usize) void {
     @memset(C, 0);
 
     for (A, 0..) |_, index| {
@@ -47,7 +47,7 @@ pub fn sort(A: []i32, B: []i32, radix: usize) !void {
 
     var exp: i32 = 1;
     while (@divFloor(k, exp) > 0) : (exp *= 10) {
-        counting_sort(A, B, C, exp, radix);
+        countingSort(A, B, C, exp, radix);
         for (B, 0..) |value, index| {
             A[index] = value;
         }

@@ -8,35 +8,35 @@ pub fn build(b: *std.Build) void {
 
     // Sort algorithms
     if (std.mem.eql(u8, op, "sort/quicksort"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "quickSort.zig",
             .category = "sort",
         });
     if (std.mem.eql(u8, op, "sort/bubblesort"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "bubbleSort.zig",
             .category = "sort",
         });
     if (std.mem.eql(u8, op, "sort/radixsort"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "radixSort.zig",
             .category = "sort",
         });
     if (std.mem.eql(u8, op, "sort/mergesort"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "mergeSort.zig",
             .category = "sort",
         });
     if (std.mem.eql(u8, op, "sort/insertsort"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "insertionSort.zig",
@@ -45,14 +45,14 @@ pub fn build(b: *std.Build) void {
 
     // Search algorithms
     if (std.mem.eql(u8, op, "search/bSearchTree"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "binarySearchTree.zig",
             .category = "search",
         });
     if (std.mem.eql(u8, op, "search/rb"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "redBlackTrees.zig",
@@ -61,28 +61,28 @@ pub fn build(b: *std.Build) void {
 
     // Data Structures algorithms
     if (std.mem.eql(u8, op, "ds/linkedlist"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "linkedList.zig",
             .category = "dataStructures",
         });
     if (std.mem.eql(u8, op, "ds/doublylinkedlist"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "doublyLinkedList.zig",
             .category = "dataStructures",
         });
     if (std.mem.eql(u8, op, "ds/lrucache"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "lruCache.zig",
             .category = "dataStructures",
         });
     if (std.mem.eql(u8, op, "ds/stack"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "stack.zig",
@@ -91,79 +91,79 @@ pub fn build(b: *std.Build) void {
 
     // Dynamic Programming algorithms
     if (std.mem.eql(u8, op, "dp/coinChange"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "coinChange.zig",
-            .category = "dynamicProgramming"
+            .category = "dynamicProgramming",
         });
     if (std.mem.eql(u8, op, "dp/knapsack"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "knapsack.zig",
-            .category = "dynamicProgramming"
+            .category = "dynamicProgramming",
         });
     if (std.mem.eql(u8, op, "dp/longestIncreasingSubsequence"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "longestIncreasingSubsequence.zig",
-            .category = "dynamicProgramming"
+            .category = "dynamicProgramming",
         });
     if (std.mem.eql(u8, op, "dp/editDistance"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "editDistance.zig",
-            .category = "dynamicProgramming"
+            .category = "dynamicProgramming",
         });
 
     // Math algorithms
     if (std.mem.eql(u8, op, "math/ceil"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "ceil.zig",
             .category = "math",
         });
     if (std.mem.eql(u8, op, "math/crt"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "chineseRemainderTheorem.zig",
             .category = "math",
         });
     if (std.mem.eql(u8, op, "math/fibonacci"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "fibonacciRecursion.zig",
             .category = "math",
         });
     if (std.mem.eql(u8, op, "math/primes"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "primes.zig",
             .category = "math",
         });
     if (std.mem.eql(u8, op, "math/euclidianGCDivisor"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "euclidianGreatestCommonDivisor.zig",
             .category = "math",
         });
     if (std.mem.eql(u8, op, "math/gcd"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "gcd.zig",
             .category = "math",
         });
     if (std.mem.eql(u8, op, "math/factorial"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "factorial.zig",
@@ -172,7 +172,7 @@ pub fn build(b: *std.Build) void {
 
     // Concurrent
     if (std.mem.eql(u8, op, "threads/threadpool"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "ThreadPool.zig",
@@ -181,21 +181,21 @@ pub fn build(b: *std.Build) void {
 
     // Web
     if (std.mem.eql(u8, op, "web/httpClient"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "client.zig",
             .category = "web/http",
         });
     if (std.mem.eql(u8, op, "web/httpServer"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "server.zig",
             .category = "web/http",
         });
     if (std.mem.eql(u8, op, "web/tls1_3"))
-        build_algorithm(b, .{
+        buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
             .name = "X25519+Kyber768Draft00.zig",
@@ -203,7 +203,7 @@ pub fn build(b: *std.Build) void {
         });
 }
 
-fn build_algorithm(b: *std.Build, info: BInfo) void {
+fn buildAlgorithm(b: *std.Build, info: BInfo) void {
     const src = std.mem.concat(b.allocator, u8, &.{
         info.category,
         "/",
@@ -217,7 +217,7 @@ fn build_algorithm(b: *std.Build, info: BInfo) void {
         .target = info.target,
         .optimize = info.optimize,
         .root_source_file = b.path(src),
-        .test_runner = runner,
+        .test_runner = .{ .path = runner, .mode = .simple },
     });
 
     const descr = b.fmt("Test the {s} algorithm", .{info.name});
