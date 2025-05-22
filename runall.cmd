@@ -49,4 +49,7 @@ rem Web
 %ZIG_TEST% -Dalgorithm=web/httpServer %Args%
 %ZIG_TEST% -Dalgorithm=web/tls1_3 %Args%
 
+rem Machine Learning
+%ZIG_TEST% -Dalgorithm=machine_learning/k_means_clustering.zig %Args%
+
 rem Add more...
