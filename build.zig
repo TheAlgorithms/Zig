@@ -209,7 +209,7 @@ pub fn build(b: *std.Build) void {
             .category = "web/tls",
         });
     // Machine Learning
-    if (std.mem.eql(u8, op, "machine_learning/k_means_clustering.zig"))
+    if (std.mem.eql(u8, op, "machine_learning/k_means_clustering"))
         buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,

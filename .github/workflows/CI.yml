@@ -16,14 +16,8 @@ jobs:
           fetch-depth: 0
       - uses: mlugg/setup-zig@v1
 
-      - name: Testing (Linux & MacOS)
-        if: (startsWith(matrix.runs-on, 'ubuntu')) || (startsWith(matrix.runs-on, 'macos'))
-        run: sh runall.sh
-
-      - name: Testing (Windows)
-        if: startsWith(matrix.runs-on, 'windows')
-        run: ./runall.cmd
-
+      - name: Testing
+        run: zig run runall.zig
 
   lint:
     runs-on: ubuntu-latest
