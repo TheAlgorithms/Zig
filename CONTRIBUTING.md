@@ -71,7 +71,7 @@ if (std.mem.eql(u8, op, "category/algorithm-name"))
 to test add:
 
 ```zig
-# runall.zig
+// runall.zig
 try runTest(allocator, "category/algorithm-name");
 ```
 
