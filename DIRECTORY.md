@@ -16,6 +16,9 @@
   * [Knapsack](https://github.com/TheAlgorithms/Zig/blob/HEAD/dynamicProgramming/knapsack.zig)
   * [Longestincreasingsubsequence](https://github.com/TheAlgorithms/Zig/blob/HEAD/dynamicProgramming/longestIncreasingSubsequence.zig)
 
+## Machine Learning
+  * [K Means Clustering](https://github.com/TheAlgorithms/Zig/blob/HEAD/machine_learning/k_means_clustering.zig)
+
 ## Math
   * [Ceil](https://github.com/TheAlgorithms/Zig/blob/HEAD/math/ceil.zig)
   * [Chineseremaindertheorem](https://github.com/TheAlgorithms/Zig/blob/HEAD/math/chineseRemainderTheorem.zig)
@@ -24,6 +27,8 @@
   * [Fibonaccirecursion](https://github.com/TheAlgorithms/Zig/blob/HEAD/math/fibonacciRecursion.zig)
   * [Gcd](https://github.com/TheAlgorithms/Zig/blob/HEAD/math/gcd.zig)
   * [Primes](https://github.com/TheAlgorithms/Zig/blob/HEAD/math/primes.zig)
+
+## [Runall](https://github.com/TheAlgorithms/Zig/blob/HEAD//runall.zig)
 
 ## Search
   * [Binarysearchtree](https://github.com/TheAlgorithms/Zig/blob/HEAD/search/binarySearchTree.zig)
