@@ -49,4 +49,6 @@ $ZIG_TEST -Dalgorithm=web/httpClient $Args
 $ZIG_TEST -Dalgorithm=web/httpServer $Args
 $ZIG_TEST -Dalgorithm=web/tls1_3 $Args
 
+## Machine Learning
+$ZIG_TEST -Dalgorithm=machine_learning/k_means_clustering.zig $Args
 ## Add more...

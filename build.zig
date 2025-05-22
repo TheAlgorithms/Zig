@@ -208,6 +208,14 @@ pub fn build(b: *std.Build) void {
             .name = "X25519+Kyber768Draft00.zig",
             .category = "web/tls",
         });
+    // Machine Learning
+    if (std.mem.eql(u8, op, "machine_learning/k_means_clustering.zig"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "k_means_clustering.zig",
+            .category = "machine_learning",
+        });
 }
 
 fn buildAlgorithm(b: *std.Build, info: BInfo) void {
