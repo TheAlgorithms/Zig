@@ -28,6 +28,9 @@
   * [Gcd](https://github.com/TheAlgorithms/Zig/blob/HEAD/math/gcd.zig)
   * [Primes](https://github.com/TheAlgorithms/Zig/blob/HEAD/math/primes.zig)
 
+## Numerical Methods
+  * [Newton Raphson Root](https://github.com/TheAlgorithms/Zig/blob/HEAD/numerical_methods/newton_raphson_root.zig)
+
 ## [Runall](https://github.com/TheAlgorithms/Zig/blob/HEAD//runall.zig)
 
 ## Search

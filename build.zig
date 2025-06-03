@@ -216,6 +216,14 @@ pub fn build(b: *std.Build) void {
             .name = "k_means_clustering.zig",
             .category = "machine_learning",
         });
+    // Numerical Methods
+    if (std.mem.eql(u8, op, "numerical_methods/newton_raphson_root"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "newton_raphson_root.zig",
+            .category = "numerical_methods",
+        });
 }
 
 fn buildAlgorithm(b: *std.Build, info: BInfo) void {

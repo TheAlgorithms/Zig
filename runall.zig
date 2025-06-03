@@ -48,6 +48,9 @@ pub fn main() !void {
 
     // Machine Learning
     try runTest(allocator, "machine_learning/k_means_clustering");
+
+    // Numerical Methods
+    try runTest(allocator, "numerical_methods/newton_raphson");
 }
 
 fn runTest(allocator: std.mem.Allocator, comptime algorithm: []const u8) !void {
