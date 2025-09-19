@@ -217,7 +217,7 @@ pub fn build(b: *std.Build) void {
             .category = "machine_learning",
         });
     // Numerical Methods
-    if (std.mem.eql(u8, op, "numerical_methods/newton_raphson_root"))
+    if (std.mem.eql(u8, op, "numerical_methods/newton_raphson"))
         buildAlgorithm(b, .{
             .optimize = optimize,
             .target = target,
