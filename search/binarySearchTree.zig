@@ -1,6 +1,7 @@
 const std = @import("std");
 const print = std.debug.print;
 const ArrayList = std.ArrayList;
+const Allocator = std.mem.Allocator;
 const testing = std.testing;
 
 // Returns a binary search tree instance.
@@ -22,7 +23,7 @@ pub fn BinarySearchTree(comptime T: type) type {
             left: ?*node = null,
         };
 
-        allocator: *std.mem.Allocator,
+        allocator: *Allocator,
         root: ?*node = null,
         size: usize = 0,
 
@@ -56,27 +57,27 @@ pub fn BinarySearchTree(comptime T: type) type {
         }
 
         // Function that performs inorder traversal of the tree
-        pub fn inorder(self: *Self, path: *ArrayList(T)) !void {
+        pub fn inorder(self: *Self, allocator: Allocator, path: *ArrayList(T)) !void {
             if (self.root == null) {
                 return;
             }
-            try self._inorder(self.root, path);
+            try self._inorder(allocator, self.root, path);
         }
 
         // Function that performs preorder traversal of the tree
-        pub fn preorder(self: *Self, path: *ArrayList(T)) !void {
+        pub fn preorder(self: *Self, allocator: Allocator, path: *ArrayList(T)) !void {
             if (self.root == null) {
                 return;
             }
-            try self._preorder(self.root, path);
+            try self._preorder(allocator, self.root, path);
         }
 
         // Function that performs postorder traversal of the tree
-        pub fn postorder(self: *Self, path: *ArrayList(T)) !void {
+        pub fn postorder(self: *Self, allocator: Allocator, path: *ArrayList(T)) !void {
             if (self.root == null) {
                 return;
             }
-            try self._postorder(self.root, path);
+            try self._postorder(allocator, self.root, path);
         }
 
         // Function that destroys the allocated memory of the whole tree
@@ -159,27 +160,27 @@ pub fn BinarySearchTree(comptime T: type) type {
             return false;
         }
 
-        fn _inorder(self: *Self, root: ?*node, path: *ArrayList(T)) !void {
+        fn _inorder(self: *Self, allocator: Allocator, root: ?*node, path: *ArrayList(T)) !void {
             if (root != null) {
-                try self._inorder(root.?.left, path);
-                try path.append(root.?.info);
-                try self._inorder(root.?.right, path);
+                try self._inorder(allocator, root.?.left, path);
+                try path.append(allocator, root.?.info);
+                try self._inorder(allocator, root.?.right, path);
             }
         }
 
-        fn _preorder(self: *Self, root: ?*node, path: *ArrayList(T)) !void {
+        fn _preorder(self: *Self, allocator: Allocator, root: ?*node, path: *ArrayList(T)) !void {
             if (root != null) {
-                try path.append(root.?.info);
-                try self._preorder(root.?.left, path);
-                try self._preorder(root.?.right, path);
+                try path.append(allocator, root.?.info);
+                try self._preorder(allocator, root.?.left, path);
+                try self._preorder(allocator, root.?.right, path);
             }
         }
 
-        fn _postorder(self: *Self, root: ?*node, path: *ArrayList(T)) !void {
+        fn _postorder(self: *Self, allocator: Allocator, root: ?*node, path: *ArrayList(T)) !void {
             if (root != null) {
-                try self._postorder(root.?.left, path);
-                try self._postorder(root.?.right, path);
-                try path.append(root.?.info);
+                try self._postorder(allocator, root.?.left, path);
+                try self._postorder(allocator, root.?.right, path);
+                try path.append(allocator, root.?.info);
             }
         }
 
@@ -244,26 +245,26 @@ test "Testing traversal methods" {
     try t.insert(12);
     try t.insert(15);
 
-    var ino = ArrayList(i32).init(allocator);
-    defer ino.deinit();
+    var ino: ArrayList(i32) = .empty;
+    defer ino.deinit(allocator);
 
     const check_ino = [_]i32{ 3, 5, 12, 15, 25 };
-    try t.inorder(&ino);
+    try t.inorder(allocator, &ino);
     try testing.expect(std.mem.eql(i32, ino.items, &check_ino));
 
-    var pre = ArrayList(i32).init(allocator);
-    defer pre.deinit();
+    var pre: ArrayList(i32) = .empty;
+    defer pre.deinit(allocator);
 
     const check_pre = [_]i32{ 5, 3, 25, 12, 15 };
-    try t.preorder(&pre);
+    try t.preorder(allocator, &pre);
 
     try testing.expect(std.mem.eql(i32, pre.items, &check_pre));
 
-    var post = ArrayList(i32).init(allocator);
-    defer post.deinit();
+    var post: ArrayList(i32) = .empty;
+    defer post.deinit(allocator);
 
     const check_post = [_]i32{ 3, 15, 12, 25, 5 };
-    try t.postorder(&post);
+    try t.postorder(allocator, &post);
 
     try testing.expect(std.mem.eql(i32, post.items, &check_post));
 }
