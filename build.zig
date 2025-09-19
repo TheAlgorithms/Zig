@@ -235,11 +235,15 @@ fn buildAlgorithm(b: *std.Build, info: BInfo) void {
 
     const runner = b.dependency("runner", .{}).path("test_runner.zig");
 
-    const exe_tests = b.addTest(.{
-        .name = info.name,
+    const mod = b.addModule(info.name, .{
+        .root_source_file = b.path(src),
         .target = info.target,
         .optimize = info.optimize,
-        .root_source_file = b.path(src),
+    });
+
+    const exe_tests = b.addTest(.{
+        .name = info.name,
+        .root_module = mod,
         .test_runner = .{ .path = runner, .mode = .simple },
     });
 

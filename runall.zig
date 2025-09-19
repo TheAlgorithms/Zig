@@ -61,8 +61,8 @@ fn runTest(allocator: std.mem.Allocator, comptime algorithm: []const u8) !void {
         "-Dalgorithm=" ++ algorithm,
     } ++ args, allocator);
 
-    child.stderr = std.io.getStdErr();
-    child.stdout = std.io.getStdOut();
+    child.stderr = std.fs.File.stderr();
+    child.stdout = std.fs.File.stdout();
 
     _ = try child.spawnAndWait();
 }
