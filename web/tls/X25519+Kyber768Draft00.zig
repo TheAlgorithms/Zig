@@ -2,23 +2,28 @@
 //! by: https://github.com/bwesterb
 
 test "HTTPS Client - X25519+Kyber768Draft00" {
-    var buf: [1000]u8 = undefined;
-    var header_buf: [8192]u8 = undefined;
     const uri = try std.Uri.parse("https://cloudflare.com/cdn-cgi/trace");
     var client = std.http.Client{
         .allocator = testing.allocator,
     };
     defer client.deinit();
 
-    var req = try client.open(.POST, uri, .{
-        .server_header_buffer = &header_buf,
+    var req = try client.request(.GET, uri, .{
+        .headers = .{
+            .accept_encoding = .{ .override = "text/plain" },
+        },
     });
     defer req.deinit();
-    try req.send();
-    try req.wait();
-    const read = try req.read(&buf);
 
-    var strings = std.mem.splitAny(u8, buf[0..read], "\n");
+    try req.sendBodiless();
+    var response = try req.receiveHead(&.{});
+
+    var reader_buffer: [1000]u8 = undefined;
+    const body_reader = response.reader(&reader_buffer);
+    const body = try body_reader.allocRemaining(testing.allocator, .unlimited);
+    defer testing.allocator.free(body);
+
+    var strings = std.mem.splitAny(u8, body, "\n");
     var index = strings.index.?;
     while (index < strings.rest().len) : (index += 1) {
         const content = strings.next().?;
@@ -29,8 +34,7 @@ test "HTTPS Client - X25519+Kyber768Draft00" {
         if (startW(u8, content, "http="))
             try testing.expectEqualStrings("http=http/1.1", content);
         if (startW(u8, content, "uag="))
-            try testing.expectEqualStrings("uag=zig/0.14.0 (std.http)", content);
-        // zig master/nightly change per build (e.g.: zig/0.11.0-dev.2868+1a455b2dd (std.http))
+            try testing.expectEqualStrings("uag=zig/" ++ zig_version_string ++ " (std.http)", content);
         if (startW(u8, content, "tls="))
             try testing.expectEqualStrings("tls=TLSv1.3", content);
     }
@@ -39,3 +43,4 @@ test "HTTPS Client - X25519+Kyber768Draft00" {
 const std = @import("std");
 const testing = std.testing;
 const startW = std.mem.startsWith;
+const zig_version_string = @import("builtin").zig_version_string;

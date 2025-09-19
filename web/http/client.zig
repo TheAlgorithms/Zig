@@ -6,15 +6,13 @@ test "Status == 200" {
         .allocator = std.testing.allocator,
     };
     defer client.deinit();
-    var buffer: [4 * 1024]u8 = undefined;
-    var req = try client.open(.GET, uri, .{
-        .server_header_buffer = &buffer,
-    });
+
+    var req = try client.request(.GET, uri, .{});
     defer req.deinit();
 
-    try req.send();
-    try req.wait();
+    try req.sendBodiless();
+    const response = try req.receiveHead(&.{});
 
-    try std.testing.expectEqual(req.response.status, .ok);
-    try std.testing.expectEqual(req.response.version, .@"HTTP/1.1");
+    try std.testing.expectEqual(response.head.status, .ok);
+    try std.testing.expectEqual(response.head.version, .@"HTTP/1.1");
 }

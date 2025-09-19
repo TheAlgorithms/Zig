@@ -30,15 +30,15 @@ pub fn lowerBound(arr: []const i32, key: i32) usize {
 //      arr: the passed array
 //      allocator: Any std.heap type allocator
 pub fn lis(arr: []const i32, allocator: anytype) usize {
-    var v = ArrayList(i32).init(allocator);
-    defer v.deinit();
+    var v: ArrayList(i32) = .empty;
+    defer v.deinit(allocator);
 
     const n = arr.len;
 
     for (0..n) |i| {
         const it = lowerBound(v.items, arr[i]);
         if (it == v.items.len) {
-            _ = v.append(arr[i]) catch return 0;
+            _ = v.append(allocator, arr[i]) catch return 0;
         } else {
             v.items[it] = arr[i];
         }

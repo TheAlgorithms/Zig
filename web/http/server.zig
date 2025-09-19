@@ -1,11 +1,13 @@
 //! ref: https://github.com/ziglang/zig/blob/master/lib/std/http/test.zig
-//! ref: https://ziglang.org/download/0.12.0/release-notes.html#Reworked-HTTP
+//! ref: https://ziglang.org/download/0.15.1/release-notes.html#HTTP-Client-and-Server
 
 const std = @import("std");
 const expect = std.testing.expect;
 
 test "client requests server" {
     const builtin = @import("builtin");
+
+    const allocator = std.testing.allocator;
 
     // This test requires spawning threads.
     if (builtin.single_threaded) {
@@ -24,7 +26,7 @@ test "client requests server" {
     const address = try std.net.Address.parseIp4("127.0.0.1", 0);
 
     var http_server = try address.listen(.{
-        .reuse_port = true,
+        .reuse_address = true,
     });
     const server_port = http_server.listen_address.getPort();
     defer http_server.deinit();
@@ -34,16 +36,20 @@ test "client requests server" {
             const connection = try s.accept();
             defer connection.stream.close();
 
-            var read_buffer: [8000]u8 = undefined;
-            var server = std.http.Server.init(connection, &read_buffer);
+            var recv_buffer: [4000]u8 = undefined;
+            var sead_buffer: [4000]u8 = undefined;
+            var conn_reader = connection.stream.reader(&recv_buffer);
+            var conn_writer = connection.stream.writer(&sead_buffer);
+            var server = std.http.Server.init(conn_reader.interface(), &conn_writer.interface);
 
             var request = try server.receiveHead();
 
             // Accept request
-            const reader = try request.reader();
-            var buffer: [100]u8 = undefined;
-            const read_num = try reader.readAll(&buffer);
-            try std.testing.expectEqualStrings(buffer[0..read_num], "Hello, World!\n");
+            var reader = try request.readerExpectContinue(&.{});
+            const body = try reader.allocRemaining(allocator, .unlimited);
+            defer allocator.free(body);
+
+            try std.testing.expectEqualStrings(body, "Hello, World!\n");
 
             // Respond
             const server_body: []const u8 = "message from server!\n";
@@ -60,7 +66,7 @@ test "client requests server" {
     // Make requests to server
 
     var client = std.http.Client{
-        .allocator = std.testing.allocator,
+        .allocator = allocator,
     };
     defer client.deinit();
     const uri = uri: {
@@ -70,22 +76,19 @@ test "client requests server" {
         break :uri uri;
     };
 
-    var buffer: [4 * 1024]u8 = undefined;
-    var req = try client.open(.POST, uri, .{
-        .server_header_buffer = &buffer,
-    });
+    var req = try client.request(.POST, uri, .{});
     req.transfer_encoding = .{ .content_length = 14 };
     defer req.deinit();
 
-    try req.send();
-    try req.writeAll("Hello, ");
-    try req.writeAll("World!\n");
-    try req.finish();
+    var body_writer = try req.sendBody(&.{});
 
-    try req.wait();
+    try body_writer.writer.writeAll("Hello, ");
+    try body_writer.writer.writeAll("World!\n");
+    try body_writer.end();
 
-    var read_buffer: [100]u8 = undefined;
-    const read_num = try req.readAll(&read_buffer);
+    var response = try req.receiveHead(&.{});
+    const body = try response.reader(&.{}).allocRemaining(allocator, .unlimited);
+    defer allocator.free(body);
 
-    try std.testing.expectEqualStrings(read_buffer[0..read_num], "message from server!\n");
+    try std.testing.expectEqualStrings(body, "message from server!\n");
 }
