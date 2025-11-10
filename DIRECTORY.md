@@ -44,6 +44,18 @@
   * [Quicksort](https://github.com/TheAlgorithms/Zig/blob/HEAD/sort/quickSort.zig)
   * [Radixsort](https://github.com/TheAlgorithms/Zig/blob/HEAD/sort/radixSort.zig)
 
+## Tiger Style
+Expert-level algorithms following [TigerBeetle's Tiger Style](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md) principles
+  * [Time Simulation](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/time_simulation.zig) - Deterministic time framework
+  * [Merge Sort Tiger](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/merge_sort_tiger.zig) - Zero-recursion merge sort
+  * [Knapsack Tiger](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/knapsack_tiger.zig) - Heavy-assertion DP
+  * [Ring Buffer](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/ring_buffer.zig) - Bounded FIFO queue
+  * [Raft Consensus](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/raft_consensus.zig) - Raft consensus
+  * [Two-Phase Commit](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/two_phase_commit.zig) - 2PC protocol
+  * [VSR Consensus](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/vsr_consensus.zig) - Viewstamped Replication
+  * [Robin Hood Hash](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/robin_hood_hash.zig) - Cache-efficient hash table
+  * [Skip List](https://github.com/TheAlgorithms/Zig/blob/HEAD/tiger_style/skip_list.zig) - Probabilistic ordered map
+
 ## Web
   * Http
     * [Client](https://github.com/TheAlgorithms/Zig/blob/HEAD/web/http/client.zig)
