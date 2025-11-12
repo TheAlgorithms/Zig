@@ -51,6 +51,17 @@ pub fn main() !void {
 
     // Numerical Methods
     try runTest(allocator, "numerical_methods/newton_raphson");
+
+    // Tiger Style
+    try runTest(allocator, "tiger_style/time_simulation");
+    try runTest(allocator, "tiger_style/merge_sort_tiger");
+    try runTest(allocator, "tiger_style/knapsack_tiger");
+    try runTest(allocator, "tiger_style/ring_buffer");
+    try runTest(allocator, "tiger_style/raft_consensus");
+    try runTest(allocator, "tiger_style/two_phase_commit");
+    try runTest(allocator, "tiger_style/vsr_consensus");
+    try runTest(allocator, "tiger_style/robin_hood_hash");
+    try runTest(allocator, "tiger_style/skip_list");
 }
 
 fn runTest(allocator: std.mem.Allocator, comptime algorithm: []const u8) !void {
