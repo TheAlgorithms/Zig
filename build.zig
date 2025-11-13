@@ -224,6 +224,71 @@ pub fn build(b: *std.Build) void {
             .name = "newton_raphson_root.zig",
             .category = "numerical_methods",
         });
+
+    // Tiger Style
+    if (std.mem.eql(u8, op, "tiger_style/time_simulation"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "time_simulation.zig",
+            .category = "tiger_style",
+        });
+    if (std.mem.eql(u8, op, "tiger_style/merge_sort_tiger"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "merge_sort_tiger.zig",
+            .category = "tiger_style",
+        });
+    if (std.mem.eql(u8, op, "tiger_style/knapsack_tiger"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "knapsack_tiger.zig",
+            .category = "tiger_style",
+        });
+    if (std.mem.eql(u8, op, "tiger_style/ring_buffer"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "ring_buffer.zig",
+            .category = "tiger_style",
+        });
+    if (std.mem.eql(u8, op, "tiger_style/raft_consensus"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "raft_consensus.zig",
+            .category = "tiger_style",
+        });
+    if (std.mem.eql(u8, op, "tiger_style/two_phase_commit"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "two_phase_commit.zig",
+            .category = "tiger_style",
+        });
+    if (std.mem.eql(u8, op, "tiger_style/vsr_consensus"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "vsr_consensus.zig",
+            .category = "tiger_style",
+        });
+    if (std.mem.eql(u8, op, "tiger_style/robin_hood_hash"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "robin_hood_hash.zig",
+            .category = "tiger_style",
+        });
+    if (std.mem.eql(u8, op, "tiger_style/skip_list"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "skip_list.zig",
+            .category = "tiger_style",
+        });
 }
 
 fn buildAlgorithm(b: *std.Build, info: BInfo) void {
