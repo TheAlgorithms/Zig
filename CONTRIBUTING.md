@@ -43,6 +43,7 @@ Every project is managed by the `build.zig` file.
 ├── sort
 │   ├── bubbleSort.zig
 │   ├── insertionSort.zig
+│   ├── selectionSort.zig
 │   ├── mergeSort.zig
 │   ├── quickSort.zig
 │   └── radixSort.zig

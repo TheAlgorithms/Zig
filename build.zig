@@ -42,6 +42,13 @@ pub fn build(b: *std.Build) void {
             .name = "insertionSort.zig",
             .category = "sort",
         });
+    if (std.mem.eql(u8, op, "sort/selectionSort"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "selectionSort.zig",
+            .category = "sort",
+        });
 
     // Search algorithms
     if (std.mem.eql(u8, op, "search/bSearchTree"))
