@@ -33,6 +33,7 @@ pub fn main() !void {
     try runTest(allocator, "sort/radixsort");
     try runTest(allocator, "sort/mergesort");
     try runTest(allocator, "sort/insertsort");
+    try runTest(allocator, "sort/selectionSort");
 
     // Search
     try runTest(allocator, "search/bSearchTree");
