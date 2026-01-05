@@ -39,6 +39,7 @@ Every project is managed by the `build.zig` file.
 ├── runall.sh
 ├── search
 │   ├── binarySearchTree.zig
+│   ├── linearSearch.zig
 │   └── redBlackTrees.zig
 ├── sort
 │   ├── bubbleSort.zig
