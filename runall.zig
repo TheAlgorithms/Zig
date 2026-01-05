@@ -38,6 +38,7 @@ pub fn main() !void {
     // Search
     try runTest(allocator, "search/bSearchTree");
     try runTest(allocator, "search/rb");
+    try runTest(allocator, "search/linearSearch");
 
     // Threads
     try runTest(allocator, "threads/threadpool");

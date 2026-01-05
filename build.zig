@@ -65,6 +65,13 @@ pub fn build(b: *std.Build) void {
             .name = "redBlackTrees.zig",
             .category = "search",
         });
+    if (std.mem.eql(u8, op, "search/linearSearch"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "linearSearch.zig",
+            .category = "search",
+        });
 
     // Data Structures algorithms
     if (std.mem.eql(u8, op, "ds/trie"))
