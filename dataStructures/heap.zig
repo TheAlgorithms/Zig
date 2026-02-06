@@ -15,7 +15,7 @@ pub fn Heap(comptime T: type, comptime compare: fn (a: T, b: T) bool) type {
         /// Initialize the heap with an allocator
         pub fn init(allocator: std.mem.Allocator) Self {
             return Self{
-                .items = .{},
+                .items = .empty,
                 .allocator = allocator,
             };
         }
@@ -118,6 +118,8 @@ test "MinHeap operations" {
     try heap.insert(10);
     try heap.insert(1);
 
+    try testing.expect(4 == heap.size());
+
     try testing.expectEqual(@as(?i32, 1), heap.peek());
     try testing.expectEqual(@as(?i32, 1), heap.extract());
     try testing.expectEqual(@as(?i32, 3), heap.extract());
@@ -133,8 +135,13 @@ test "MaxHeap operations" {
 
     try heap.insert(5);
     try heap.insert(3);
+
+    try testing.expect(2 == heap.size());
+
     try heap.insert(10);
     try heap.insert(1);
+
+    try testing.expect(4 == heap.size());
 
     try testing.expectEqual(@as(?i32, 10), heap.peek());
     try testing.expectEqual(@as(?i32, 10), heap.extract());
