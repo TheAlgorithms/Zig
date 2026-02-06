@@ -44,6 +44,7 @@ Every project is managed by the `build.zig` file.
 │   └── redBlackTrees.zig
 ├── sort
 │   ├── bubbleSort.zig
+│   ├── heapSort.zig
 │   ├── insertionSort.zig
 │   ├── selectionSort.zig
 │   ├── mergeSort.zig
