@@ -76,7 +76,6 @@ pub fn queue(comptime T: type) type {
         // Function that destroys the allocated memory of the whole queue
         pub fn destroy(self: *Self) !void {
             while (self.size != 0) : (try self.pop()) {}
-            self.size = 0;
         }
     };
 }
