@@ -20,6 +20,7 @@ Every project is managed by the `build.zig` file.
 │   ├── heap.zig
 │   ├── linkedList.zig
 │   ├── lruCache.zig
+│   ├── queue.zig
 │   ├── stack.zig
 │   └── trie.zig
 ├── dynamicProgramming
