@@ -109,6 +109,13 @@ pub fn build(b: *std.Build) void {
             .name = "stack.zig",
             .category = "dataStructures",
         });
+    if (std.mem.eql(u8, op, "ds/queue"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "queue.zig",
+            .category = "dataStructures",
+        });
 
     // Dynamic Programming algorithms
     if (std.mem.eql(u8, op, "dp/coinChange"))

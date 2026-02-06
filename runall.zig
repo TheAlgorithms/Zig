@@ -20,6 +20,7 @@ pub fn main() !void {
     try runTest(allocator, "ds/doublylinkedlist");
     try runTest(allocator, "ds/lrucache");
     try runTest(allocator, "ds/stack");
+    try runTest(allocator, "ds/queue");
 
     // Dynamic Programming
     try runTest(allocator, "dp/coinChange");
