@@ -49,6 +49,13 @@ pub fn build(b: *std.Build) void {
             .name = "selectionSort.zig",
             .category = "sort",
         });
+    if (std.mem.eql(u8, op, "sort/heapSort"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "heapSort.zig",
+            .category = "sort",
+        });
 
     // Search algorithms
     if (std.mem.eql(u8, op, "search/bSearchTree"))
