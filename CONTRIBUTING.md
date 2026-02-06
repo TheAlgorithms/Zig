@@ -17,6 +17,7 @@ Every project is managed by the `build.zig` file.
 │       └── ThreadPool.zig
 ├── dataStructures
 │   ├── doublyLinkedList.zig
+│   ├── heap.zig
 │   ├── linkedList.zig
 │   ├── lruCache.zig
 │   ├── stack.zig

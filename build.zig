@@ -74,6 +74,13 @@ pub fn build(b: *std.Build) void {
         });
 
     // Data Structures algorithms
+    if (std.mem.eql(u8, op, "ds/heap"))
+        buildAlgorithm(b, .{
+            .optimize = optimize,
+            .target = target,
+            .name = "heap.zig",
+            .category = "dataStructures",
+        });
     if (std.mem.eql(u8, op, "ds/trie"))
         buildAlgorithm(b, .{
             .optimize = optimize,
