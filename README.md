@@ -42,5 +42,5 @@
 Run:
 
 ```bash
-$> sh runall.sh
+zig run runall.zig
 ```
