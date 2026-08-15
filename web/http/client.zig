@@ -4,6 +4,7 @@ test "Status == 200" {
     const uri = std.Uri.parse("https://ziglang.org") catch return error.UriParsingError;
     var client = std.http.Client{
         .allocator = std.testing.allocator,
+        .io = std.testing.io,
     };
     defer client.deinit();
 

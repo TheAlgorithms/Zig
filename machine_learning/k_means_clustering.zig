@@ -53,7 +53,7 @@ pub fn KMeans(data: []const Point2D, comptime k: usize) ![k]Cluster {
         old_clusters[i].count = 0;
     }
     while (true) {
-        var new_clusters: [k]Cluster = .{Cluster.zero} ** k;
+        var new_clusters: [k]Cluster = @splat(Cluster.zero);
         for (data) |point| {
             const cluster_idx = calculateNearest(point, old_clusters);
             const new = &new_clusters[cluster_idx];

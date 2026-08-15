@@ -3,6 +3,7 @@ const print = std.debug.print;
 const ArrayList = std.ArrayList;
 const Allocator = std.mem.Allocator;
 const testing = std.testing;
+const assert = std.debug.assert;
 
 // Returns a binary search tree instance.
 // Arguments:
@@ -195,8 +196,8 @@ pub fn BinarySearchTree(comptime T: type) type {
 }
 
 test "Testing insertion" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
     var allocator = gpa.allocator();
 
     var t = BinarySearchTree(i32){ .allocator = &allocator };
@@ -213,8 +214,8 @@ test "Testing insertion" {
 }
 
 test "Testing bst removal" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
     var allocator = gpa.allocator();
 
     var t = BinarySearchTree(i32){ .allocator = &allocator };
@@ -232,8 +233,8 @@ test "Testing bst removal" {
 }
 
 test "Testing traversal methods" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
     var allocator = gpa.allocator();
 
     var t = BinarySearchTree(i32){ .allocator = &allocator };
@@ -270,8 +271,8 @@ test "Testing traversal methods" {
 }
 
 test "Testing operations on empty trees" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
     var allocator = gpa.allocator();
 
     var t = BinarySearchTree(i32){ .allocator = &allocator };

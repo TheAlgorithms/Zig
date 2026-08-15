@@ -227,7 +227,7 @@ test "sort: single element" {
 
 test "sort: two elements sorted" {
     var array: [2]i32 = .{ 1, 2 };
-    var work: [2]i32 = .{0} ** 2;
+    var work: [2]i32 = @splat(0);
 
     sort(i32, &array, &work);
 
@@ -238,7 +238,7 @@ test "sort: two elements sorted" {
 
 test "sort: two elements reversed" {
     var array: [2]i32 = .{ 2, 1 };
-    var work: [2]i32 = .{0} ** 2;
+    var work: [2]i32 = @splat(0);
 
     sort(i32, &array, &work);
 
@@ -249,7 +249,7 @@ test "sort: two elements reversed" {
 
 test "sort: already sorted" {
     var array: [10]i32 = .{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-    var work: [10]i32 = .{0} ** 10;
+    var work: [10]i32 = @splat(0);
 
     sort(i32, &array, &work);
 
@@ -261,7 +261,7 @@ test "sort: already sorted" {
 
 test "sort: reverse order" {
     var array: [10]i32 = .{ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-    var work: [10]i32 = .{0} ** 10;
+    var work: [10]i32 = @splat(0);
 
     sort(i32, &array, &work);
 
@@ -273,7 +273,7 @@ test "sort: reverse order" {
 
 test "sort: duplicates" {
     var array: [8]i32 = .{ 5, 2, 8, 2, 9, 1, 5, 5 };
-    var work: [8]i32 = .{0} ** 8;
+    var work: [8]i32 = @splat(0);
 
     sort(i32, &array, &work);
 
@@ -285,8 +285,8 @@ test "sort: duplicates" {
 }
 
 test "sort: all same elements" {
-    var array: [10]i32 = .{7} ** 10;
-    var work: [10]i32 = .{0} ** 10;
+    var array: [10]i32 = @splat(7);
+    var work: [10]i32 = @splat(0);
 
     sort(i32, &array, &work);
 
@@ -298,7 +298,7 @@ test "sort: all same elements" {
 
 test "sort: negative numbers" {
     var array: [6]i32 = .{ -5, -1, -10, 0, -3, -7 };
-    var work: [6]i32 = .{0} ** 6;
+    var work: [6]i32 = @splat(0);
 
     sort(i32, &array, &work);
 
@@ -355,7 +355,7 @@ test "sort: stress test - verify no recursion stack overflow" {
 
 test "sort: different types - u32" {
     var array: [5]u32 = .{ 5, 2, 8, 1, 9 };
-    var work: [5]u32 = .{0} ** 5;
+    var work: [5]u32 = @splat(0);
 
     sort(u32, &array, &work);
 
@@ -364,7 +364,7 @@ test "sort: different types - u32" {
 
 test "sort: different types - u64" {
     var array: [5]u64 = .{ 5, 2, 8, 1, 9 };
-    var work: [5]u64 = .{0} ** 5;
+    var work: [5]u64 = @splat(0);
 
     sort(u64, &array, &work);
 

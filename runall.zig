@@ -1,86 +1,61 @@
 const std = @import("std");
+const Io = std.Io;
 
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
+pub fn main(init: std.process.Init) !void {
+    const io = init.io;
 
-    // Math algorithms
-    try runTest(allocator, "math/ceil");
-    try runTest(allocator, "math/crt");
-    try runTest(allocator, "math/primes");
-    try runTest(allocator, "math/fibonacci");
-    try runTest(allocator, "math/factorial");
-    try runTest(allocator, "math/euclidianGCDivisor");
-    try runTest(allocator, "math/gcd");
+    try runTest(io, "math/ceil");
+    try runTest(io, "math/crt");
+    try runTest(io, "math/primes");
+    try runTest(io, "math/fibonacci");
+    try runTest(io, "math/factorial");
+    try runTest(io, "math/euclidianGCDivisor");
+    try runTest(io, "math/gcd");
 
-    // Data Structures
-    try runTest(allocator, "ds/trie");
-    try runTest(allocator, "ds/linkedlist");
-    try runTest(allocator, "ds/doublylinkedlist");
-    try runTest(allocator, "ds/lrucache");
-    try runTest(allocator, "ds/stack");
-    try runTest(allocator, "ds/heap");
-    try runTest(allocator, "ds/queue");
+    try runTest(io, "ds/trie");
+    try runTest(io, "ds/linkedlist");
+    try runTest(io, "ds/doublylinkedlist");
+    try runTest(io, "ds/lrucache");
+    try runTest(io, "ds/stack");
+    try runTest(io, "ds/heap");
+    try runTest(io, "ds/queue");
 
-    // Dynamic Programming
-    try runTest(allocator, "dp/coinChange");
-    try runTest(allocator, "dp/knapsack");
-    try runTest(allocator, "dp/longestIncreasingSubsequence");
-    try runTest(allocator, "dp/editDistance");
+    try runTest(io, "dp/coinChange");
+    try runTest(io, "dp/knapsack");
+    try runTest(io, "dp/longestIncreasingSubsequence");
+    try runTest(io, "dp/editDistance");
 
-    // Sort
-    try runTest(allocator, "sort/quicksort");
-    try runTest(allocator, "sort/bubblesort");
-    try runTest(allocator, "sort/radixsort");
-    try runTest(allocator, "sort/mergesort");
-    try runTest(allocator, "sort/insertsort");
-    try runTest(allocator, "sort/selectionSort");
-    try runTest(allocator, "sort/heapSort");
+    try runTest(io, "sort/quicksort");
+    try runTest(io, "sort/bubblesort");
+    try runTest(io, "sort/radixsort");
+    try runTest(io, "sort/mergesort");
+    try runTest(io, "sort/insertsort");
+    try runTest(io, "sort/selectionSort");
+    try runTest(io, "sort/heapSort");
 
-    // Search
-    try runTest(allocator, "search/bSearchTree");
-    try runTest(allocator, "search/rb");
-    try runTest(allocator, "search/linearSearch");
+    try runTest(io, "search/bSearchTree");
+    try runTest(io, "search/rb");
+    try runTest(io, "search/linearSearch");
 
-    // Threads
-    try runTest(allocator, "threads/threadpool");
+    try runTest(io, "threads/threadpool");
 
-    // Web
-    try runTest(allocator, "web/httpClient");
-    try runTest(allocator, "web/httpServer");
-    try runTest(allocator, "web/tls1_3");
+    try runTest(io, "web/httpClient");
+    try runTest(io, "web/httpServer");
+    try runTest(io, "web/tls1_3");
 
-    // Machine Learning
-    try runTest(allocator, "machine_learning/k_means_clustering");
+    try runTest(io, "machine_learning/k_means_clustering");
 
-    // Numerical Methods
-    try runTest(allocator, "numerical_methods/newton_raphson");
+    try runTest(io, "numerical_methods/newton_raphson");
 
-    // Tiger Style
-    try runTest(allocator, "tiger_style/time_simulation");
-    try runTest(allocator, "tiger_style/merge_sort_tiger");
-    try runTest(allocator, "tiger_style/knapsack_tiger");
-    try runTest(allocator, "tiger_style/ring_buffer");
-    try runTest(allocator, "tiger_style/raft_consensus");
-    try runTest(allocator, "tiger_style/two_phase_commit");
-    try runTest(allocator, "tiger_style/vsr_consensus");
-    try runTest(allocator, "tiger_style/robin_hood_hash");
-    try runTest(allocator, "tiger_style/skip_list");
-}
-
-fn runTest(allocator: std.mem.Allocator, comptime algorithm: []const u8) !void {
-    var child = std.process.Child.init(&[_][]const u8{
-        "zig",
-        "build",
-        "test",
-        "-Dalgorithm=" ++ algorithm,
-    } ++ args, allocator);
-
-    child.stderr = std.fs.File.stderr();
-    child.stdout = std.fs.File.stdout();
-
-    _ = try child.spawnAndWait();
+    try runTest(io, "tiger_style/time_simulation");
+    try runTest(io, "tiger_style/merge_sort_tiger");
+    try runTest(io, "tiger_style/knapsack_tiger");
+    try runTest(io, "tiger_style/ring_buffer");
+    try runTest(io, "tiger_style/raft_consensus");
+    try runTest(io, "tiger_style/two_phase_commit");
+    try runTest(io, "tiger_style/vsr_consensus");
+    try runTest(io, "tiger_style/robin_hood_hash");
+    try runTest(io, "tiger_style/skip_list");
 }
 
 const args = [_][]const u8{
@@ -88,3 +63,15 @@ const args = [_][]const u8{
     "all",
     "-freference-trace",
 };
+
+fn runTest(io: Io, comptime algorithm: []const u8) !void {
+    const argv = [_][]const u8{
+        "zig",
+        "build",
+        "test",
+        "-Dalgorithm=" ++ algorithm,
+    } ++ args;
+
+    var child = try std.process.spawn(io, .{ .argv = &argv });
+    _ = try child.wait(io);
+}

@@ -2,6 +2,7 @@ const std = @import("std");
 const expect = std.testing.expect;
 const mem = std.mem;
 const math = std.math;
+const assert = std.debug.assert;
 
 pub fn max(A: []i32) i32 {
     var max_val: i32 = 0;
@@ -35,10 +36,8 @@ pub fn countingSort(A: []i32, B: []i32, C: []usize, exp: i32, radix: usize) void
 }
 
 pub fn sort(A: []i32, B: []i32, radix: usize) !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer {
-        _ = gpa.deinit();
-    }
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
     const allocator = gpa.allocator();
     const C = try allocator.alloc(usize, radix);
     defer allocator.free(C);
@@ -73,7 +72,7 @@ test "array with one element" {
 
 test "sorted array" {
     var array: [10]i32 = .{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-    var work_array: [10]i32 = .{0} ** 10;
+    var work_array: [10]i32 = @splat(0);
     try sort(&array, &work_array, 10);
     for (array, 0..) |value, i| {
         try expect(value == (i + 1));
@@ -82,7 +81,7 @@ test "sorted array" {
 
 test "reverse order" {
     var array: [10]i32 = .{ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-    var work_array: [10]i32 = .{0} ** 10;
+    var work_array: [10]i32 = @splat(0);
     try sort(&array, &work_array, 10);
     for (array, 0..) |value, i| {
         try expect(value == (i + 1));
@@ -91,7 +90,7 @@ test "reverse order" {
 
 test "unsorted array" {
     var array: [5]i32 = .{ 5, 3, 4, 1, 2 };
-    var work_array: [5]i32 = .{0} ** 5;
+    var work_array: [5]i32 = @splat(0);
     try sort(&array, &work_array, 10);
     for (array, 0..) |value, i| {
         try expect(value == (i + 1));
@@ -100,7 +99,7 @@ test "unsorted array" {
 
 test "two last unordered" {
     var array: [10]i32 = .{ 1, 2, 3, 4, 5, 6, 7, 8, 10, 9 };
-    var work_array: [10]i32 = .{0} ** 10;
+    var work_array: [10]i32 = @splat(0);
     try sort(&array, &work_array, 10);
     for (array, 0..) |value, i| {
         try expect(value == (i + 1));
@@ -109,7 +108,7 @@ test "two last unordered" {
 
 test "two first unordered" {
     var array: [10]i32 = .{ 2, 1, 3, 4, 5, 6, 7, 8, 9, 10 };
-    var work_array: [10]i32 = .{0} ** 10;
+    var work_array: [10]i32 = @splat(0);
     try sort(&array, &work_array, 10);
     for (array, 0..) |value, i| {
         try expect(value == (i + 1));

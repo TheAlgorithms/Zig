@@ -1,6 +1,7 @@
 const std = @import("std");
 const print = std.debug.print;
 const testing = std.testing;
+const assert = std.debug.assert;
 const ArrayList = std.ArrayList;
 
 // Function that returns the lower bound in O(logn)
@@ -48,8 +49,8 @@ pub fn lis(arr: []const i32, allocator: anytype) usize {
 }
 
 test "testing longest increasing subsequence function" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
 
     const v = [4]i32{ 1, 5, 6, 7 };
     try testing.expect(lis(&v, gpa.allocator()) == 4);

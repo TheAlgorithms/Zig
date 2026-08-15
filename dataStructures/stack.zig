@@ -1,5 +1,6 @@
 const std = @import("std");
 const testing = std.testing;
+const assert = std.debug.assert;
 
 const errors = error{EmptyList};
 
@@ -77,8 +78,8 @@ pub fn stack(comptime T: type) type {
 }
 
 test "Testing insertion/popping in stack" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
     var allocator = gpa.allocator();
 
     var s = stack(i32){ .allocator = &allocator };
@@ -104,8 +105,8 @@ test "Testing insertion/popping in stack" {
 }
 
 test "Testing other formats" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
     var allocator = gpa.allocator();
 
     var s = stack(u8){ .allocator = &allocator };

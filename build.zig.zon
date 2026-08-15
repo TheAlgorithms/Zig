@@ -28,7 +28,7 @@
 
     // Tracks the earliest Zig version that the package considers to be a
     // supported use case.
-    .minimum_zig_version = "0.15.1",
+    .minimum_zig_version = "0.16.0",
 
     // This field is optional.
     // Each dependency must either provide a `url` and `hash`, or a `path`.
@@ -38,8 +38,8 @@
     .dependencies = .{
         // Custom test-runner: see tests output
         .runner = .{
-            .url = "git+https://gist.github.com/karlseguin/c6bea5b35e4e8d26af6f81c22cb5d76b#eb15512d6ae49663fa9df6c7a9725b20dab43edd",
-            .hash = "N-V-__8AAHMkAAC4CUVVTX0UMBJXtfOubskbF9EJ7X6qAGYR",
+            .url = "git+https://gist.github.com/kassane/f8895bff7f830f3e96840ee9ce911746#1682032ef192bf444b88055ddabf57059883869c",
+            .hash = "N-V-__8AAAklAAA_YUknri28iZw4tsvgbnbKzfAKZ1qGX4iN",
         },
     },
     .paths = .{

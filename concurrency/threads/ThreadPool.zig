@@ -579,7 +579,9 @@ pub const ThreadPool = struct {
                 // Acquiring to WAITING will make the next notify() or shutdown() wake a sleeping futex thread
                 // who will either exit on SHUTDOWN or acquire with WAITING again, ensuring all threads are awoken.
                 // This unfortunately results in the last notify() or shutdown() doing an extra futex wake but that's fine.
-                std.Thread.Futex.wait(&self.state, WAITING);
+                while (self.state.load(.monotonic) == WAITING) {
+                    std.atomic.spinLoopHint();
+                }
                 state = self.state.load(.monotonic);
                 acquire_with = WAITING;
             }
@@ -600,13 +602,8 @@ pub const ThreadPool = struct {
         fn wake(self: *Event, release_with: u32, wake_threads: u32) void {
             // Update the Event to notifty it with the new `release_with` state (either NOTIFIED or SHUTDOWN).
             // Release barrier to ensure any operations before this are this to happen before the wait() in the other threads.
-            const state = self.state.swap(release_with, .release);
-
-            // Only wake threads sleeping in futex if the state is WAITING.
-            // Avoids unnecessary wake ups.
-            if (state == WAITING) {
-                std.Thread.Futex.wake(&self.state, wake_threads);
-            }
+            _ = self.state.swap(release_with, .release);
+            _ = wake_threads;
         }
     };
 

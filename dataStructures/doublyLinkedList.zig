@@ -1,6 +1,7 @@
 const std = @import("std");
 const print = std.debug.print;
 const testing = std.testing;
+const assert = std.debug.assert;
 
 // Returns a doubly linked list instance.
 // Arguments:
@@ -186,8 +187,8 @@ pub fn DoublyLinkedList(comptime T: type) type {
 }
 
 test "Testing Doubly Linked List" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
     var allocator = gpa.allocator();
 
     var list = DoublyLinkedList(i32){ .allocator = &allocator };

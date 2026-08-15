@@ -1,6 +1,6 @@
 const std = @import("std");
 const Allocator = std.mem.Allocator;
-const HashMap = std.AutoArrayHashMap;
+const HashMap = std.AutoArrayHashMapUnmanaged;
 
 const TrieError = error{
     InvalidNode,
@@ -13,10 +13,10 @@ pub fn TrieNode(comptime T: type) type {
         children: HashMap(u8, *Self),
         parent: ?*Self,
 
-        fn init(node_data: T, allocator: Allocator, parent: ?*Self) TrieNode(T) {
+        fn init(node_data: T, parent: ?*Self) TrieNode(T) {
             return TrieNode(T){
                 .node_data = node_data,
-                .children = HashMap(u8, *Self).init(allocator),
+                .children = .{},
                 .parent = parent,
             };
         }
@@ -71,17 +71,13 @@ pub fn Trie(comptime T: type) type {
         /// Allocate a new node and return its pointer
         fn new_node(self: Self, node_data: T, parent: ?*NodeType) !*NodeType {
             const node_ptr = try self.allocator.create(NodeType);
-            node_ptr.* = NodeType.init(
-                node_data,
-                self.allocator,
-                parent,
-            );
+            node_ptr.* = NodeType.init(node_data, parent);
             return node_ptr;
         }
 
         pub fn init(root_data: T, allocator: Allocator) !Self {
             const node_ptr = try allocator.create(NodeType);
-            node_ptr.* = NodeType.init(root_data, allocator, null);
+            node_ptr.* = NodeType.init(root_data, null);
             return Self{
                 .trie_root = node_ptr,
                 .allocator = allocator,
@@ -104,7 +100,7 @@ pub fn Trie(comptime T: type) type {
                         new_value,
                         iterator.node_at_iterator,
                     );
-                    try iterator.node_at_iterator.children.put(char, node);
+                    try iterator.node_at_iterator.children.put(self.allocator, char, node);
                     iterator = iterator.go_to_child(char).?;
                 }
             }
@@ -156,7 +152,7 @@ pub fn Trie(comptime T: type) type {
             while (it.next()) |entry| {
                 self.recursive_free(IteratorType.init(entry.value_ptr.*));
             }
-            iterator.node_at_iterator.children.deinit();
+            iterator.node_at_iterator.children.deinit(self.allocator);
             self.allocator.destroy(iterator.node_at_iterator);
         }
 
@@ -167,9 +163,7 @@ pub fn Trie(comptime T: type) type {
 }
 
 test "basic traverse" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const debug_allocator = gpa.allocator();
-    const trie = try Trie(i32).init(0, debug_allocator);
+    const trie = try Trie(i32).init(0, std.testing.allocator);
     defer trie.deinit();
     _ = try trie.add_string("aaa", 0);
     _ = try trie.add_string("abb", 0);
@@ -186,9 +180,7 @@ test "basic traverse" {
 }
 
 test "iterator traverse" {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const debug_allocator = gpa.allocator();
-    const trie = try Trie(i32).init(0, debug_allocator);
+    const trie = try Trie(i32).init(0, std.testing.allocator);
     defer trie.deinit();
     var it = try trie.add_string("abc", 0); // "abc"
     try std.testing.expectEqual(null, it.go_to_child('a'));

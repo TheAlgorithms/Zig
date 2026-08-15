@@ -5,6 +5,7 @@ test "HTTPS Client - X25519+Kyber768Draft00" {
     const uri = try std.Uri.parse("https://cloudflare.com/cdn-cgi/trace");
     var client = std.http.Client{
         .allocator = testing.allocator,
+        .io = std.testing.io,
     };
     defer client.deinit();
 
