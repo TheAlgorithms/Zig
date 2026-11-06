@@ -42,11 +42,11 @@ pub fn BinarySearchTree(comptime T: type) type {
         // Arguments:
         //      key: T - the key to be removed from the tree
         pub fn remove(self: *Self, key: T) !void {
-            if (self.root == null) {
-                return;
+            var removed = false;
+            self.root = try self._remove(self.root, key, &removed);
+            if (removed) {
+                self.size -= 1;
             }
-            self.root = try self._remove(self.root, key);
-            self.size -= 1;
         }
 
         // Function to search if a key exists in the tree
@@ -84,10 +84,8 @@ pub fn BinarySearchTree(comptime T: type) type {
         // Function that destroys the allocated memory of the whole tree
         // Uses the _destroy helper private function
         pub fn destroy(self: *Self) void {
-            if (self.root == null) {
-                return;
-            }
             self._destroy(self.root);
+            self.root = null;
             self.size = 0;
         }
 
@@ -114,16 +112,17 @@ pub fn BinarySearchTree(comptime T: type) type {
             return root;
         }
 
-        fn _remove(self: *Self, root: ?*node, key: T) !?*node {
+        fn _remove(self: *Self, root: ?*node, key: T, removed: *bool) !?*node {
             if (root == null) {
                 return root;
             }
 
             if (root.?.info < key) {
-                root.?.right = try self._remove(root.?.right, key);
+                root.?.right = try self._remove(root.?.right, key, removed);
             } else if (root.?.info > key) {
-                root.?.left = try self._remove(root.?.left, key);
+                root.?.left = try self._remove(root.?.left, key, removed);
             } else {
+                removed.* = true;
                 if (root.?.left == null and root.?.right == null) {
                     self.allocator.destroy(root.?);
                     return null;
@@ -139,7 +138,7 @@ pub fn BinarySearchTree(comptime T: type) type {
                     var curr: ?*node = root.?.right;
                     while (curr.?.left != null) : (curr = curr.?.left) {}
                     root.?.info = curr.?.info;
-                    root.?.right = try self._remove(root.?.right, curr.?.info);
+                    root.?.right = try self._remove(root.?.right, curr.?.info, removed);
                 }
             }
 
@@ -282,4 +281,43 @@ test "Testing operations on empty trees" {
     try testing.expect(t.search(10) == false);
     try t.remove(10);
     try testing.expect(t.search(10) == false);
+    try testing.expect(t.size == 0);
+}
+
+test "Testing removal of absent keys keeps size" {
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
+    var allocator = gpa.allocator();
+
+    var t = BinarySearchTree(i32){ .allocator = &allocator };
+    defer t.destroy();
+
+    try t.insert(10);
+    try t.insert(5);
+    try t.insert(15);
+
+    try t.remove(7);
+    try testing.expect(t.size == 3);
+    try t.remove(7);
+    try testing.expect(t.size == 3);
+    try testing.expect(t.search(10) == true);
+
+    try t.remove(10);
+    try testing.expect(t.size == 2);
+}
+
+test "Testing destroy leaves an empty reusable tree" {
+    var gpa = std.heap.DebugAllocator(.{}){};
+    defer assert(gpa.deinit() == .ok);
+    var allocator = gpa.allocator();
+
+    var t = BinarySearchTree(i32){ .allocator = &allocator };
+    defer t.destroy();
+
+    try t.insert(10);
+    t.destroy();
+    try testing.expect(t.size == 0);
+    try testing.expect(t.root == null);
+    try t.insert(5);
+    try testing.expect(t.size == 1);
 }

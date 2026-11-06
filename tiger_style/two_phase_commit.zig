@@ -28,7 +28,7 @@ pub const CoordinatorState = enum(u8) {
     aborted,
 
     pub fn validate(self: CoordinatorState) void {
-        assert(@intFromEnum(self) <= 3);
+        assert(@backingInt(self) <= 3);
     }
 };
 
@@ -39,7 +39,7 @@ pub const ParticipantVote = enum(u8) {
     no_response,
 
     pub fn validate(self: ParticipantVote) void {
-        assert(@intFromEnum(self) <= 2);
+        assert(@backingInt(self) <= 2);
     }
 };
 

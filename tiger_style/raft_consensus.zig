@@ -39,7 +39,7 @@ pub const NodeState = enum(u8) {
 
     pub fn validate(self: NodeState) void {
         // Ensure state is valid
-        assert(@intFromEnum(self) <= 2);
+        assert(@backingInt(self) <= 2);
     }
 };
 

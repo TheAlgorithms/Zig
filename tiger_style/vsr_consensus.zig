@@ -39,7 +39,7 @@ pub const ReplicaState = enum(u8) {
     recovering, // Replica recovering
 
     pub fn validate(self: ReplicaState) void {
-        assert(@intFromEnum(self) <= 2);
+        assert(@backingInt(self) <= 2);
     }
 };
 

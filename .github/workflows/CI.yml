@@ -1,6 +1,10 @@
 name: build
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
@@ -14,7 +18,9 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: mlugg/setup-zig@v2
+      - uses: zed-industries/setup-zig@node24
+        with:
+          version: 0.17.0
 
       - name: Testing
         run: zig run runall.zig
@@ -23,5 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: mlugg/setup-zig@v2
+      - uses: zed-industries/setup-zig@node24
+        with:
+          version: 0.17.0
       - run: zig fmt --check --ast-check */*.zig
